@@ -52,8 +52,9 @@ class MCIntegrator:
                     box1 += np.random.rand(directpointsInBox, self.dim)*l
                     box = np.concatenate([box1, box])
                 boxes[i,j] = box
-                volumes[i,j] = np.ones(pointsInBox)*(boxSize**(self.dim/pointsInBox))
+                volumes[i,j] = (boxSize**self.dim)/pointsInBox
                 
         boxes = np.array(boxes)
-        self.testPointPos = np.concatenate(np.concatenate(boxes, axis=0), axis=0)
-        self.testPointVol = np.concatenate(np.concatenate(volumes, axis=0), axis=0)
+        volumes = np.array(volumes)
+        self.testPointPos = boxes #np.concatenate(np.concatenate(boxes, axis=0), axis=0)
+        self.testPointVol = volumes #np.concatenate(np.concatenate(volumes, axis=0), axis=0)
