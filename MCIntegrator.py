@@ -15,6 +15,8 @@ class MCIntegrator:
     testPointPos = []
     domainSize=10
     numTestPoints = 1000
+    iterations=0
+    energy=0
     
     
     
@@ -22,7 +24,7 @@ class MCIntegrator:
         density=np.random.rand(self.numberOfBoxes, self.numberOfBoxes)#np.ones([x,y])
         #density=np.ones([self.numberOfBoxes, self.numberOfBoxes])
         density /= np.sum(density)
-        self.generateGrid(density=density, numberTestPoints=self.numTestPoints)
+        self.generateGrid(density=density)
         
     def applyFunction(self, pos):
         #return np.sum((pos[:]-5)**2, axis=1)
@@ -48,7 +50,7 @@ class MCIntegrator:
 
 
     
-    def generateGrid(self, density, numberTestPoints):
+    def generateGrid(self, density):
         '''
         Generates a adaptivem stratified grid with ~'numberTestPoints'
         according to the density distribution 'density'
@@ -64,7 +66,7 @@ class MCIntegrator:
         
         for i in range(len(boxes)):
             for j in range(len(boxes[:])):
-                pointsInBox = int(round(density[i,j]*numberTestPoints))
+                pointsInBox = int(round(density[i,j]*self.numberTestPoints))
                 pointsPerDirection = int(pointsInBox**(1/self.dim))
                 directpointsInBox = int(pointsPerDirection**self.dim)
         
@@ -88,3 +90,9 @@ class MCIntegrator:
         volumes = np.array(volumes)
         self.testPointPos = boxes #np.concatenate(np.concatenate(boxes, axis=0), axis=0)
         self.testPointVol = volumes #np.concatenate(np.concatenate(volumes, axis=0), axis=0)
+        
+    def getFlatTestPoints(self):
+        return np.concatenate(np.concatenate(self.testPointPos, axis=0), axis=0)
+        
+    def getEnergy(self):
+        return self.energy

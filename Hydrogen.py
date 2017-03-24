@@ -5,6 +5,16 @@ Created on Fri Mar 24 19:59:19 2017
 @author: rene
 """
 
-import MCIntegrator as mc
+import MCIntegrator
+import BoxPlotter
 
-mcer = mc.MCIntegrator()
+
+RESULT_PATH = "simulation_results"
+IMAGE_PATH = RESULT_PATH+"/images"
+
+
+mcer = MCIntegrator.MCIntegrator()
+mcer.integral()
+
+bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
+bplotter.plotBox(True, False)
