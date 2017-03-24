@@ -66,7 +66,7 @@ class MCIntegrator:
         
         for i in range(len(boxes)):
             for j in range(len(boxes[:])):
-                pointsInBox = int(round(density[i,j]*self.numTestPoints))
+                pointsInBox = max(1,int(round(density[i,j]*self.numTestPoints)))
                 pointsPerDirection = int(pointsInBox**(1/self.dim))
                 directpointsInBox = int(pointsPerDirection**self.dim)
         
