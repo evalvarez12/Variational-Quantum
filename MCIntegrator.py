@@ -24,20 +24,20 @@ class MCIntegrator:
         self.numTestPoints=numTestPoints
         self.domainSize=domainSize
         self.numberOfBoxes=numberOfBoxes
-        density=np.random.rand(*[self.numberOfBoxes]*self.dim)#np.ones([x,y])
-        #density=np.ones([self.numberOfBoxes, self.numberOfBoxes])
-        density /= np.sum(density)
-        self.generateGrid(density=density)
-        self.testFunction = testFunction
-    
+        self.testFunction=testFunction
+        
     def integrate(self):
-        f, f_sum = self.testFunction(self.testPointPos, self.dim)
-        box_int = f_sum*self.testPointVol
+        f, functionArraySummed = self.testFunction(self.testPointPos, self.dim)
+        
+        self.boxIntegral = functionArraySummed*self.testPointVol
+        self.totalIntegral = np.sum(self.boxIntegral)
     
-        return np.sum(box_int), box_int
-            
-
-
+    
+    def createNewDensity(self):
+        self.integrate()
+        
+        self.newDensity = np.absolute(self.boxIntegral)/self.totalIntegral
+        
     
     def generateGrid(self, density):
         '''

@@ -7,10 +7,18 @@ Created on Fri Mar 24 19:59:19 2017
 
 import MCIntegrator
 import BoxPlotter
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 RESULT_PATH = "simulation_results"
 IMAGE_PATH = RESULT_PATH+"/images"
+
+
+iterations=10
+#analyticalAnswer = 1666.666666666   # (2nd line)
+#analyticalAnswer = 7.24378          # (4th line)  
+analyticalAnswer = 23.04            # (Heaviside if-statement)
+
 
 def hydrogenTestFunction(pos, dim):
         #return np.sum((pos[:]-5)**2, axis=1)
@@ -30,8 +38,18 @@ def hydrogenTestFunction(pos, dim):
 mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=hydrogenTestFunction)
 
 bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
-bplotter.plotBox(True, False)
 
+    
+density=np.random.rand(mcer.numberOfBoxes, mcer.numberOfBoxes)#np.ones([x,y])
 
-result, a =mcer.integrate()
-print(result)
+error=[]
+for i in range(0,iterations):
+    mcer.generateGrid(density=density)
+    mcer.createNewDensity()
+    error = np.append(error,[1-(mcer.totalIntegral/analyticalAnswer)])
+    density=mcer.newDensity
+
+    bplotter.plotBox(True, False)
+
+print(mcer.totalIntegral)
+plt.plot(np.absolute(error))
