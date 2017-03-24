@@ -4,8 +4,7 @@ Created on Fri Mar 24 12:35:40 2017
 
 @author: rene
 """
-
-2# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Spyder Editor
 
@@ -43,9 +42,9 @@ for i in range(len(boxes)):
     for j in range(len(boxes[:])):        
         particlesInBox = round(density[i,j]*totalNumberOfParticles)
         particlesPerDirection = int(particlesInBox**(1/dim))
-        directParticlesInBox = particlesPerDirection**dim
+        directParticlesInBox = int(particlesPerDirection**dim)
 
-        box = [(i*boxSize), (j*boxSize)]+np.random.rand((particlesInBox-directParticlesInBox), dim)*boxSize        
+        box = np.random.rand((particlesInBox-directParticlesInBox), dim)*boxSize+np.array([(i*boxSize), (j*boxSize)])
         
         if particlesPerDirection > 0:
             l = boxSize/particlesPerDirection
