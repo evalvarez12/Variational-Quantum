@@ -40,7 +40,7 @@ dim=2
 
 for i in range(len(boxes)):
     for j in range(len(boxes[:])):        
-        particlesInBox = round(density[i,j]*totalNumberOfParticles)
+        particlesInBox = int(round(density[i,j]*totalNumberOfParticles))
         particlesPerDirection = int(particlesInBox**(1/dim))
         directParticlesInBox = int(particlesPerDirection**dim)
 
