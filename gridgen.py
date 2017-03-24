@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 
 
 def f(pos):
-    return ((pos[0]-5)**2 + (pos[1]-5)**2)
+    return np.sum((pos[:]-5)**2, axis=1)
     
 def integral():
     f(boxes)
@@ -59,7 +59,7 @@ for i in range(len(boxes)):
         volumes[i,j] = boxSize**dim/particlesInBox
         
 boxes = np.array(boxes)
-arr=np.concatenate(np.concatenate(boxes, axis=0), axis=0)
+arr = np.concatenate(np.concatenate(boxes, axis=0), axis=0)
 
 plt.rcParams["figure.figsize"] = [8,8]
 plt.figure()
