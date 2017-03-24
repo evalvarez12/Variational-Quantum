@@ -29,7 +29,7 @@ def integral():
 totalNumberOfParticles = 1000
 numberOfBoxesPerDimension = 5
 boxes = np.array([[0]*numberOfBoxesPerDimension]*numberOfBoxesPerDimension, dtype=np.ndarray)
-volumes = np.array([[0]*numberOfBoxesPerDimension]*numberOfBoxesPerDimension, dtype=float)
+volumes = np.array([[0]*numberOfBoxesPerDimension]*numberOfBoxesPerDimension, dtype=np.ndarray)
 density = np.ones([numberOfBoxesPerDimension,numberOfBoxesPerDimension])#np.random.rand(numberOfBoxesPerDimension, numberOfBoxesPerDimension)#np.ones([x,y])#
 density /= np.sum(density)
 numberOfParticles = density*totalNumberOfParticles
