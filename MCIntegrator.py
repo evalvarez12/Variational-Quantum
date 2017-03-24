@@ -58,8 +58,8 @@ class MCIntegrator:
         
         boxes = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=np.ndarray)
         volumes = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=float)
-#        numberTestPoints = density*numberTestPoints
-#        numberTestPoints = numberTestPoints.astype(int)
+        #numberTestPoints = density*numberTestPoints
+        #numberTestPoints = numberTestPoints.astype(int)
         
         for i in range(len(boxes)):
             for j in range(len(boxes[:])):
