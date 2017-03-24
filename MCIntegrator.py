@@ -14,16 +14,17 @@ class MCIntegrator:
     testPointVol = []
     testPointPos = []
     domainSize=10
+    numTestPoints = 1000
     
     
     
     def __init__(self):
-        #density=np.random.rand(numberOfBoxesPerDimension, numberOfBoxesPerDimension)#np.ones([x,y])
-        density=np.ones([self.numberOfBoxes, self.numberOfBoxes])
+        density=np.random.rand(self.numberOfBoxes, self.numberOfBoxes)#np.ones([x,y])
+        #density=np.ones([self.numberOfBoxes, self.numberOfBoxes])
         density /= np.sum(density)
-        self.generateGrid(density=density, numberTestPoints=1000)
+        self.generateGrid(density=density, numberTestPoints=self.numTestPoints)
         
-    def function(self, pos):
+    def applyFunction(self, pos):
         #return np.sum((pos[:]-5)**2, axis=1)
     
         f = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=np.ndarray)
@@ -36,7 +37,7 @@ class MCIntegrator:
     
         return f, f_sum
     
-    def integral(self):
+    def integrate(self):
         f, f_sum = self.function(self.testPointPos)
         box_int = f_sum*self.testPointVol
         
