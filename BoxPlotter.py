@@ -18,9 +18,8 @@ class BoxPlotter:
     IMAGE_PATH = RESULT_PATH+"/images"
     VIDEO_DESC_FILE = ""
     sim = 0
-    plotSize=0
+    plotSize=8
     plots=0
-    plotScale=0.8
     
     def __init__(self, sim, RESULT_PATH, IMAGE_PATH):
         self.RESULT_PATH = RESULT_PATH
@@ -33,12 +32,6 @@ class BoxPlotter:
                 path.mkdir(parents=True)
         except OSError:
             print("Image path could not be created")
-        
-        
-        
-        #Generate the plot scaling
-        self.plotSize=[0]*2;
-        self.plotSize = sim.domainSize*self.plotScale;
         
         
     '''
