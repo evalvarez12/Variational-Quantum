@@ -38,7 +38,7 @@ class MCIntegrator:
         return f, f_sum
     
     def integrate(self):
-        f, f_sum = self.function(self.testPointPos)
+        f, f_sum = self.applyFunction(self.testPointPos)
         box_int = f_sum*self.testPointVol
         
         print(np.sum(box_int))
