@@ -56,10 +56,11 @@ for i in range(len(boxes)):
             box1 += np.random.rand(directParticlesInBox, dim)*l
             box = np.concatenate([box1, box])
         boxes[i,j] = box
-        volumes[i,j] = boxSize**dim/particlesInBox
+        volumes[i,j] = np.ones(particlesInBox)*(boxSize**dim/particlesInBox)
         
 boxes = np.array(boxes)
 arr = np.concatenate(np.concatenate(boxes, axis=0), axis=0)
+vols = np.concatenate(np.concatenate(volumes, axis=0), axis=0)
 
 plt.rcParams["figure.figsize"] = [8,8]
 plt.figure()
