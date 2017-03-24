@@ -52,7 +52,7 @@ class MCIntegrator:
     
     def generateGrid(self, density):
         '''
-        Generates a adaptivem stratified grid with ~'numberTestPoints'
+        Generates a adaptivem stratified grid with ~'numTestPoints'
         according to the density distribution 'density'
         '''
         density /= np.sum(density)
@@ -61,12 +61,12 @@ class MCIntegrator:
         
         boxes = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=np.ndarray)
         volumes = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=float)
-        #numberTestPoints = density*numberTestPoints
-        #numberTestPoints = numberTestPoints.astype(int)
+        #numTestPoints = density*numTestPoints
+        #numTestPoints = numTestPoints.astype(int)
         
         for i in range(len(boxes)):
             for j in range(len(boxes[:])):
-                pointsInBox = int(round(density[i,j]*self.numberTestPoints))
+                pointsInBox = int(round(density[i,j]*self.numTestPoints))
                 pointsPerDirection = int(pointsInBox**(1/self.dim))
                 directpointsInBox = int(pointsPerDirection**self.dim)
         

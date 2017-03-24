@@ -20,7 +20,7 @@ class BoxPlotter:
     sim = 0
     plotSize=0
     plots=0
-    plotScale=8
+    plotScale=0.8
     
     def __init__(self, sim, RESULT_PATH, IMAGE_PATH):
         self.RESULT_PATH = RESULT_PATH

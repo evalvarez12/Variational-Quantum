@@ -14,7 +14,7 @@ IMAGE_PATH = RESULT_PATH+"/images"
 
 
 mcer = MCIntegrator.MCIntegrator()
-mcer.integral()
+mcer.integrate()
 
 bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
 bplotter.plotBox(True, False)
