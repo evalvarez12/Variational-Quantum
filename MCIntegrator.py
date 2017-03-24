@@ -41,14 +41,17 @@ class MCIntegrator:
                 pointsPerDirection = int(pointsInBox**(1/self.dim))
                 directpointsInBox = int(pointsPerDirection**self.dim)
         
+                #Generate the random points, that don't fit in the grid
                 box = np.random.rand((pointsInBox-directpointsInBox), self.dim)*boxSize+np.array([(i*boxSize), (j*boxSize)])
                 
+                #Generate the stratified grid-points
                 if pointsPerDirection > 0:
-                    l = boxSize/pointsPerDirection
-                    
+                    #Generate the even grid
                     a=np.linspace((i*boxSize), ((i+1)*boxSize), pointsPerDirection, endpoint=False)
                     b=np.linspace((j*boxSize), ((j+1)*boxSize), pointsPerDirection, endpoint=False)
                     box1 = np.transpose([np.tile(a, len(b)), np.repeat(b, len(a))])
+                    #Now move (stratify) the grid-points
+                    l = boxSize/pointsPerDirection
                     box1 += np.random.rand(directpointsInBox, self.dim)*l
                     box = np.concatenate([box1, box])
                 boxes[i,j] = box
