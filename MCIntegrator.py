@@ -19,7 +19,7 @@ class MCIntegrator:
     energy=0
     
     
-    def __init__(self, dim, numTestPoints, domainSize,numberOfBoxes):
+    def __init__(self, dim, numTestPoints, domainSize,numberOfBoxes, testFunction):
         self.dim=dim
         self.numTestPoints=numTestPoints
         self.domainSize=domainSize
@@ -28,24 +28,10 @@ class MCIntegrator:
         #density=np.ones([self.numberOfBoxes, self.numberOfBoxes])
         density /= np.sum(density)
         self.generateGrid(density=density)
-        
-    def applyFunction(self, pos):
-        #return np.sum((pos[:]-5)**2, axis=1)
-    
-        f = np.array(np.zeros([self.numberOfBoxes]*self.dim), dtype=np.ndarray)
-        f_sum = np.array(np.zeros([self.numberOfBoxes]*self.dim), dtype=float)
-    
-    
-        boxesindices = np.array(np.meshgrid(*[range(self.numberOfBoxes)]*self.dim)).T.reshape(-1,self.dim)
-        for indices in boxesindices:
-            indices=tuple(indices)
-            f[indices] = (pos[indices][:,0]-5)**2 + (pos[indices][:,1]-5)**2
-            f_sum[indices] = sum(f[indices]) 
-    
-        return f, f_sum
+        self.testFunction = testFunction
     
     def integrate(self):
-        f, f_sum = self.applyFunction(self.testPointPos)
+        f, f_sum = self.testFunction(self.testPointPos, self.dim)
         box_int = f_sum*self.testPointVol
     
         return np.sum(box_int), box_int
