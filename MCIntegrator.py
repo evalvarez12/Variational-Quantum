@@ -9,19 +9,22 @@ import numpy as np
 
 
 class MCIntegrator:
-    dim = 2
-    numberOfBoxes = 5
+    dim = 3
+    numberOfBoxes = 2
     testPointVol = []
     testPointPos = []
-    domainSize=10
-    numTestPoints = 1000
+    domainSize=1
+    numTestPoints = 8
     iterations=0
     energy=0
     
     
-    
-    def __init__(self):
-        density=np.random.rand(self.numberOfBoxes, self.numberOfBoxes)#np.ones([x,y])
+    def __init__(self, dim, numTestPoints, domainSize,numberOfBoxes):
+        self.dim=dim
+        self.numTestPoints=numTestPoints
+        self.domainSize=domainSize
+        self.numberOfBoxes=numberOfBoxes
+        density=np.random.rand(*[self.numberOfBoxes]*self.dim)#np.ones([x,y])
         #density=np.ones([self.numberOfBoxes, self.numberOfBoxes])
         density /= np.sum(density)
         self.generateGrid(density=density)
@@ -29,21 +32,21 @@ class MCIntegrator:
     def applyFunction(self, pos):
         #return np.sum((pos[:]-5)**2, axis=1)
     
-        f = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=np.ndarray)
-        f_sum = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes)
+        f = np.array(np.zeros([self.numberOfBoxes]*self.dim), dtype=np.ndarray)
+        f_sum = np.array(np.zeros([self.numberOfBoxes]*self.dim), dtype=float)
     
-        for i in range(len(self.testPointPos)):
-            for j in range(len(self.testPointPos[:])): 
-                f[i][j] = (pos[i][j][:,0]-5)**2 + (pos[i][j][:,1]-5)**2
-                f_sum[i][j] = sum(f[i][j]) 
+    
+        boxesindices = np.array(np.meshgrid(*[range(self.numberOfBoxes)]*self.dim)).T.reshape(-1,self.dim)
+        for indices in boxesindices:
+            indices=tuple(indices)
+            f[indices] = (pos[indices][:,0]-5)**2 + (pos[indices][:,1]-5)**2
+            f_sum[indices] = sum(f[indices]) 
     
         return f, f_sum
     
     def integrate(self):
         f, f_sum = self.applyFunction(self.testPointPos)
         box_int = f_sum*self.testPointVol
-        
-        print(np.sum(box_int))
     
         return np.sum(box_int), box_int
             
@@ -59,32 +62,32 @@ class MCIntegrator:
         
         boxSize = self.domainSize/self.numberOfBoxes
         
-        boxes = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=np.ndarray)
-        volumes = np.array([[0]*self.numberOfBoxes]*self.numberOfBoxes, dtype=float)
+        boxes = np.array(np.zeros([self.numberOfBoxes]*self.dim), dtype=np.ndarray)
+        volumes = np.array(np.zeros([self.numberOfBoxes]*self.dim), dtype=float)
         #numTestPoints = density*numTestPoints
         #numTestPoints = numTestPoints.astype(int)
-        
-        for i in range(len(boxes)):
-            for j in range(len(boxes[:])):
-                pointsInBox = max(1,int(round(density[i,j]*self.numTestPoints)))
-                pointsPerDirection = int(pointsInBox**(1/self.dim))
-                directpointsInBox = int(pointsPerDirection**self.dim)
-        
-                #Generate the random points, that don't fit in the grid
-                box = np.random.rand((pointsInBox-directpointsInBox), self.dim)*boxSize+np.array([(i*boxSize), (j*boxSize)])
-                
-                #Generate the stratified grid-points
-                if pointsPerDirection > 0:
-                    #Generate the even grid
-                    a=np.linspace((i*boxSize), ((i+1)*boxSize), pointsPerDirection, endpoint=False)
-                    b=np.linspace((j*boxSize), ((j+1)*boxSize), pointsPerDirection, endpoint=False)
-                    box1 = np.transpose([np.tile(a, len(b)), np.repeat(b, len(a))])
-                    #Now move (stratify) the grid-points
-                    l = boxSize/pointsPerDirection
-                    box1 += np.random.rand(directpointsInBox, self.dim)*l
-                    box = np.concatenate([box1, box])
-                boxes[i,j] = box
-                volumes[i,j] = (boxSize**self.dim)/pointsInBox
+        boxesindices = np.array(np.meshgrid(*[range(self.numberOfBoxes)]*self.dim)).T.reshape(-1,self.dim)
+        for indices in boxesindices:
+            indicesArr=indices
+            indices=tuple(indices)
+            pointsInBox = max(1,int(round(density[indices]*self.numTestPoints)))
+            pointsPerDirection = int(pointsInBox**(1/self.dim))
+            directpointsInBox = int(pointsPerDirection**self.dim)
+    
+            #Generate the random points, that don't fit in the grid
+            box = np.random.rand((pointsInBox-directpointsInBox), self.dim)*boxSize + np.array(indicesArr*boxSize)
+            
+            #Generate the stratified grid-points
+            if pointsPerDirection > 0:
+                #Generate the even grid
+                linspaces=[np.linspace((i*boxSize), ((i+1)*boxSize), pointsPerDirection, endpoint=False) for i in indices]
+                box1 = np.array(np.meshgrid(*linspaces)).T.reshape(-1,self.dim)
+                #Now move (stratify) the grid-points
+                l = boxSize/pointsPerDirection
+                box1 += np.random.rand(directpointsInBox, self.dim)*l
+                box = np.concatenate([box1, box])
+            boxes[indices] = box
+            volumes[indices] = (boxSize**self.dim)/pointsInBox
                 
         boxes = np.array(boxes)
         volumes = np.array(volumes)
@@ -92,7 +95,12 @@ class MCIntegrator:
         self.testPointVol = volumes #np.concatenate(np.concatenate(volumes, axis=0), axis=0)
         
     def getFlatTestPoints(self):
-        return np.concatenate(np.concatenate(self.testPointPos, axis=0), axis=0)
+        d=self.dim
+        a=self.testPointPos
+        while d>0:
+            a=np.concatenate(a, axis=0)
+            d-=1
+        return a
         
     def getEnergy(self):
         return self.energy

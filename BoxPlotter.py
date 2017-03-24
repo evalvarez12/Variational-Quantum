@@ -4,7 +4,7 @@
 
 #Plotting packages
 import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D
 from itertools import product, combinations
 
 
@@ -112,14 +112,14 @@ class BoxPlotter:
             fig = plt.figure()
             
             ax = fig.gca(projection='3d')
-            ax.set_xlim([0,self.sim.sizeBox[0]])
-            ax.set_ylim([0,self.sim.sizeBox[1]])
-            ax.set_zlim([0,self.sim.sizeBox[2]])
+            ax.set_xlim([0,self.sim.domainSize])
+            ax.set_ylim([0,self.sim.domainSize])
+            ax.set_zlim([0,self.sim.domainSize])
             ax.set_aspect("equal")
-            plt.rcParams["figure.figsize"] = self.plotSize
+            plt.rcParams["figure.figsize"] = [self.plotSize]*2
             
             #draw cube
-            for s, e in combinations(np.array(list(product([0, self.sim.sizeBox[0]],[0, self.sim.sizeBox[1]],[0, self.sim.sizeBox[2]]))), 2):
+            for s, e in combinations(np.array(list(product(*[[0, self.sim.domainSize]]*3))), 2):
                 i=0
                 if s[0]==e[0]:
                     i+=1
@@ -136,7 +136,7 @@ class BoxPlotter:
             ax.scatter(v[:,0], v[:,1], v[:,2], color="r", s=20)
             
             
-            fig.set_size_inches(self.plotSize[0], self.plotSize[1])
+            fig.set_size_inches(self.plotSize, self.plotSize)
             
             self._showWritePlotFile(plt, show, write)
         else:
