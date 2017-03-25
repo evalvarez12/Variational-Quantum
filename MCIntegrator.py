@@ -29,16 +29,12 @@ class MCIntegrator:
     def integrate(self):
         f, functionArraySummed = self.testFunction(self.testPointPos, self.dim)
         
-        self.boxIntegral = functionArraySummed*self.testPointVol
-        self.totalIntegral = np.sum(self.boxIntegral)
-    
-    
-    def createNewDensity(self):
-        self.integrate()
-        
-        self.newDensity = np.absolute(self.boxIntegral)/self.totalIntegral
-        
-    
+        boxIntegral = functionArraySummed*self.testPointVol
+        totalIntegral = np.sum(boxIntegral)
+        newDensity=np.absolute(boxIntegral)/totalIntegral
+        self.iterations+=1
+        return np.sum(boxIntegral), boxIntegral, newDensity
+            
     def generateGrid(self, density):
         '''
         Generates a adaptivem stratified grid with ~'numTestPoints'

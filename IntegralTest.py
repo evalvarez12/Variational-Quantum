@@ -15,7 +15,10 @@ IMAGE_PATH = RESULT_PATH+"/images"
 
 
 iterations=1000
-analyticalAnswer = 1
+#analyticalAnswer = 1666.666666666   # (2nd line)
+#analyticalAnswer = 7.24378          # (4th line)  
+#analyticalAnswer = 23.04            # (Heaviside if-statement)
+analyticalAnswer = 2*np.pi*(3**2-2**2)
 
 
     
@@ -32,14 +35,18 @@ def funcWrapper(func, pos, dim):
 
     return f, f_sum
     
-def hydrogenTestFunction(pos):
-    return np.sum((pos[:]-5)**2, axis=1)
+def hyperbel(pos):
+    return np.sum((pos[:]-5.)**2., axis=1)
+    
+def ringStep(pos):
+    d=np.linalg.norm(pos-5, axis=1)
+    return ((d>2) & (d<3))*2
 
 
 def testFunction(pos, dim):
-    return funcWrapper(hydrogenTestFunction, pos, dim)
+    return funcWrapper(ringStep, pos, dim)
 
-mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=70, domainSize=10, numberOfBoxes=5, testFunction=testFunction)
+mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=testFunction)
 
 bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
 
@@ -47,17 +54,26 @@ bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
 #density=np.random.rand(mcer.numberOfBoxes, mcer.numberOfBoxes)
 density=np.ones([mcer.numberOfBoxes]*mcer.dim)
 
-error=[]
+errorEven=[]
 for i in range(0,iterations):
     mcer.generateGrid(density=density)
     totalIntegral, boxIntegral, newDensity = mcer.integrate()
-    error = np.append(error,[abs(1-(totalIntegral/analyticalAnswer))])
+    errorEven = np.append(errorEven,[abs(1-(totalIntegral/analyticalAnswer))])
     
     print(totalIntegral)
     #bplotter.plotBox(True, False)
 
+density=newDensity
+errorAdapt=[]
+for i in range(0,iterations):
+    mcer.generateGrid(density=density)
+    totalIntegral, boxIntegral, newDensity = mcer.integrate()
+    errorAdapt = np.append(errorAdapt,[abs(1-(totalIntegral/analyticalAnswer))])
+    
+    print(totalIntegral)
+    #bplotter.plotBox(True, False)
+    
     density=newDensity
 
-
-print(str(np.average(error)) +"±"+ str(np.std(error)))
-plt.plot(np.absolute(error))
+print(str(np.average(errorEven)) +"±"+ str(np.std(errorEven)) + " vs " + str(np.average(errorAdapt)) + "±" + str(np.std(errorAdapt)))
+#plt.plot(np.absolute(error))
