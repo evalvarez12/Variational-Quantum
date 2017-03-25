@@ -54,26 +54,25 @@ bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
 #density=np.random.rand(mcer.numberOfBoxes, mcer.numberOfBoxes)
 density=np.ones([mcer.numberOfBoxes]*mcer.dim)
 
-errorEven=[]
-for i in range(0,iterations):
-    mcer.generateGrid(density=density)
-    totalIntegral, boxIntegral, newDensity = mcer.integrate()
-    errorEven = np.append(errorEven,[abs(1-(totalIntegral/analyticalAnswer))])
-    
-    print(totalIntegral)
-    #bplotter.plotBox(True, False)
+errors=[[]]*4#np.array([]*4, dtype=np.ndarray)
+for i in range(4):
+    for itera in range(iterations):
+        if i == 0:
+            mcer.generateUniformGrid()
+        elif i == 1:
+            mcer.generateAdaptiveUniformGrid(density=density)
+        elif i == 2:
+            mcer.generateStratifiedGrid()
+        elif i == 3:
+            mcer.generateAdaptiveStratifiedGrid(density=density)
+            
+        totalIntegral, boxIntegral, newDensity = mcer.integrate()
+        errors[i] = np.append(errors[i],[abs(1-(totalIntegral/analyticalAnswer))])
+        
+        #print(totalIntegral)
+        #bplotter.plotBox(True, False)
 
-density=newDensity
-errorAdapt=[]
-for i in range(0,iterations):
-    mcer.generateGrid(density=density)
-    totalIntegral, boxIntegral, newDensity = mcer.integrate()
-    errorAdapt = np.append(errorAdapt,[abs(1-(totalIntegral/analyticalAnswer))])
-    
-    print(totalIntegral)
-    #bplotter.plotBox(True, False)
-    
-    density=newDensity
+        density=newDensity
 
-print(str(np.average(errorEven)) +"±"+ str(np.std(errorEven)) + " vs " + str(np.average(errorAdapt)) + "±" + str(np.std(errorAdapt)))
+    print(str(np.average(errors[i])) +"±"+ str(np.std(errors[i])))
 #plt.plot(np.absolute(error))
