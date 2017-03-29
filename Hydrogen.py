@@ -49,12 +49,12 @@ density = np.ones([mcer.numberOfBoxes]*mcer.dim)
 
 error=[]
 for i in range(0,iterations):
-    mcer.generateGrid(density=density)
+    mcer.generateAdaptiveStratifiedGrid(density=density)
     totalIntegral, boxIntegral, newDensity = mcer.integrate()
     error = np.append(error,[abs(1-(totalIntegral/analyticalAnswer))])
 
     print(totalIntegral)
-    #bplotter.plotBox(True, False)
+    bplotter.plotBox(True, False)
 
     density = newDensity
 

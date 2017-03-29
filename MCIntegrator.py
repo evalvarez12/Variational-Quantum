@@ -100,7 +100,12 @@ class MCIntegrator:
         self.generateAdaptiveStratifiedGrid(density=density, shift=False)
 
     def getFlatTestPoints(self):
-        return self.testPointPos.flatten()
+        d = self.dim
+        a = self.testPointPos
+        while d > 0:
+            a = np.concatenate(a, axis=0)
+            d -= 1
+        return a
 
     def getEnergy(self):
         return self.energy
