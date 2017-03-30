@@ -15,7 +15,7 @@ class MCIntegrator:
     You can use different methods of generating a grid of random points.
     Available are stratified and uniform grid with or without adaptiveness.
     '''
-    
+
     #Dimensionality of the problem
     dim = 3
     #Number of integration evaluation points
@@ -24,7 +24,7 @@ class MCIntegrator:
     domainSize = 4
     #Number of boxes per dimension for adaptiveness
     numberOfBoxes = 50
-    
+
     #Local variables. Don't change
     testPointVol = []
     testPointPos = []
@@ -37,7 +37,7 @@ class MCIntegrator:
         self.numberOfBoxes=numberOfBoxes
 
     def integrate(self, function):
-        f, functionArraySummed = self.testFunction(self.testPointPos, self.dim)
+        f, functionArraySummed = function(self.testPointPos)
 
         boxIntegral = functionArraySummed*self.testPointVol
         totalIntegral = np.sum(boxIntegral)
