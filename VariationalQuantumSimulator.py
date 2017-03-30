@@ -50,7 +50,8 @@ class VariationalQuantumSimulator:
         self.gamma = damping
 
         self.integrator = MCIntegrator.MCIntegrator(dim=dim,
-            numTestPoints=numTestPoints, domainSize=domainSize, numberOfBoxes=numberOfBoxes)
+            numTestPoints=numTestPoints, domainSize=domainSize,
+            numberOfBoxes=numberOfBoxes)
 
         self.integrator.generateStratifiedGrid()
 
@@ -66,10 +67,10 @@ class VariationalQuantumSimulator:
         '''
 
         #Calculate the new density and energy
-        totalDensity, densityPerBox, normDensityPerBox = self.integrator.integrate(
+        totalDensity, _, normDensityPerBox = self.integrator.integrate(
             self._getPosDensity)
 
-        totalEnergy, energyFunction, _ = self.integrator.integrate(
+        totalEnergy, _, _ = self.integrator.integrate(
             self._getPosEnergy)
 
         self.energy = totalEnergy / totalDensity

@@ -38,7 +38,7 @@ class MCIntegrator:
 
     def integrate(self, function):
         f, functionArraySummed = function(self.testPointPos)
-
+        
         boxIntegral = functionArraySummed*self.testPointVol
         totalIntegral = np.sum(boxIntegral)
         newDensity = np.absolute(boxIntegral)/totalIntegral
