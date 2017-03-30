@@ -50,6 +50,7 @@ class MCIntegrator:
         according to the density distribution 'density'
         '''
         density /= np.sum(density)
+        print("Density", density)
 
         boxSize = self.domainSize/self.numberOfBoxes
 
@@ -60,8 +61,11 @@ class MCIntegrator:
         boxesindices = np.array(np.meshgrid(*[range(self.numberOfBoxes)]*self.dim)).T.reshape(-1, self.dim)
         for indices in boxesindices:
             indicesArr = indices
-            indices = tuple(indices)
-            print(density)
+            # print(indices)
+            if len(indices) == 1:
+                indices = indices[0]
+            else:
+                indices = tuple(indices)
             pointsInBox = max(1, int(round(density[indices]*self.numTestPoints)))
             pointsPerDirection = int(pointsInBox**(1/self.dim))
             directpointsInBox = int(pointsPerDirection**self.dim)

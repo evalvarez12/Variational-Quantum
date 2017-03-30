@@ -48,5 +48,5 @@ for i in range(10) :
     energy += [sim.getEnergy()]
     alphas += [sim.getAlpha()]
 
-print(energy)
-print(alphas)
+# print(energy)
+# print(alphas)
