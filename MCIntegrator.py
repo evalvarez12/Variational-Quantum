@@ -13,26 +13,26 @@ class MCIntegrator:
     numberOfBoxes = 2
     testPointVol = []
     testPointPos = []
-    domainSize=1
+    domainSize = 1
     numTestPoints = 8
-    iterations=0
-    energy=0
+    iterations = 0
+    energy = 0
 
 
     def __init__(self, dim, numTestPoints, domainSize,numberOfBoxes, testFunction):
-        self.dim=dim
-        self.numTestPoints=numTestPoints
-        self.domainSize=domainSize
-        self.numberOfBoxes=numberOfBoxes
-        self.testFunction=testFunction
+        self.dim = dim
+        self.numTestPoints = numTestPoints
+        self.domainSize = domainSize
+        self.numberOfBoxes = numberOfBoxes
+        self.testFunction = testFunction
 
     def integrate(self):
         f, functionArraySummed = self.testFunction(self.testPointPos, self.dim)
 
         boxIntegral = functionArraySummed*self.testPointVol
         totalIntegral = np.sum(boxIntegral)
-        newDensity=np.absolute(boxIntegral)/totalIntegral
-        self.iterations+=1
+        newDensity = np.absolute(boxIntegral)/totalIntegral
+        self.iterations += 1
         return np.sum(boxIntegral), boxIntegral, newDensity
 
     def generateAdaptiveStratifiedGrid(self, density, shift=True):

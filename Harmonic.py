@@ -9,6 +9,7 @@ import MCIntegrator
 import BoxPlotter
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.optimize import minimize
 
 RESULT_PATH = "simulation_results"
 IMAGE_PATH = RESULT_PATH+"/images"
@@ -16,6 +17,8 @@ IMAGE_PATH = RESULT_PATH+"/images"
 
 iterations = 1000
 analyticalAnswer = 1
+
+
 
 
 
@@ -32,12 +35,22 @@ def funcWrapper(func, pos, dim):
 
     return f, f_sum
 
-def hydrogenTestFunction(pos):
-    return np.sum((pos[:]-5)**2, axis=1)
 
+def expectedValH(x, a):
+    e = normalizationFactor(x, a)
+    return (1/2.)*(+a*e - a**2*4*x**2*e + x**2*e
+
+
+def normalizationFactor(x, a):
+    return np.exp(-2*a*x**2)
+
+
+def energy(x, a):
+    E = expectedValH(x, a)/normalizationFactor(x, a)
 
 def testFunction(pos, dim):
-    return funcWrapper(hydrogenTestFunction, pos, dim)
+    return funcWrapper(trialWaveFunc, pos, dim)
+
 
 mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=testFunction)
 
