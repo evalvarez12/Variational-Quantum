@@ -45,6 +45,7 @@ alphas = []
 sim.initializeGrid()
 for i in range(10) :
     sim.iterate(True)
+    print(sim.getAlpha())
     energy += [sim.getEnergy()]
     alphas += [sim.getAlpha()]
 

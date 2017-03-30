@@ -66,6 +66,7 @@ class MCIntegrator:
                 indices = indices[0]
             else:
                 indices = tuple(indices)
+            print("isNAN",indices)
             pointsInBox = max(1, int(round(density[indices]*self.numTestPoints)))
             pointsPerDirection = int(pointsInBox**(1/self.dim))
             directpointsInBox = int(pointsPerDirection**self.dim)
@@ -78,7 +79,7 @@ class MCIntegrator:
             # Generate the stratified grid-points
             if pointsPerDirection > 0:
                 # Generate the even grid
-                linspaces = [np.linspace((i*boxSize), ((i+1)*boxSize), pointsPerDirection, endpoint=False) for i in indices]
+                linspaces = [np.linspace((i*boxSize), ((i+1)*boxSize), pointsPerDirection, endpoint=False) for i in indicesArr]
                 box1 = np.array(np.meshgrid(*linspaces)).T.reshape(-1, self.dim)
                 # Now move (stratify) the grid-points
                 l = boxSize/pointsPerDirection
