@@ -9,24 +9,34 @@ import numpy as np
 
 
 class MCIntegrator:
+    '''
+    This class allows you to perform numerical integrations on functions.
+    It works in all dimensionalities.
+    You can use different methods of generating a grid of random points.
+    Available are stratified and uniform grid with or without adaptiveness.
+    '''
+    
+    #Dimensionality of the problem
     dim = 3
-    numberOfBoxes = 2
+    #Number of integration evaluation points
+    numTestPoints = 2000
+    #Size of the integration domain
+    domainSize = 4
+    #Number of boxes per dimension for adaptiveness
+    numberOfBoxes = 50
+    
+    #Local variables. Don't change
     testPointVol = []
     testPointPos = []
-    domainSize = 1
-    numTestPoints = 8
-    iterations = 0
-    energy = 0
 
 
-    def __init__(self, dim, numTestPoints, domainSize,numberOfBoxes, testFunction):
-        self.dim = dim
-        self.numTestPoints = numTestPoints
-        self.domainSize = domainSize
-        self.numberOfBoxes = numberOfBoxes
-        self.testFunction = testFunction
+    def __init__(self, dim, numTestPoints, domainSize, numberOfBoxes):
+        self.dim=dim
+        self.numTestPoints=numTestPoints
+        self.domainSize=domainSize
+        self.numberOfBoxes=numberOfBoxes
 
-    def integrate(self):
+    def integrate(self, function):
         f, functionArraySummed = self.testFunction(self.testPointPos, self.dim)
 
         boxIntegral = functionArraySummed*self.testPointVol
@@ -106,6 +116,3 @@ class MCIntegrator:
             a = np.concatenate(a, axis=0)
             d -= 1
         return a
-
-    def getEnergy(self):
-        return self.energy
