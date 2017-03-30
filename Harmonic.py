@@ -16,36 +16,27 @@ RESULT_PATH = "simulation_results"
 IMAGE_PATH = RESULT_PATH+"/images"
 
 
-
-
-
-
-
-
-
 def trialWaveFunc(pos, alpha):
-    return np.exp(-alpha*pos**2)
-
-
-
+    return np.exp(-alpha*(np.linalg.norm(pos, axis=1)**2))
 
 def energyLocal(pos, alpha):
-    return (alpha - alpha**2*2*pos**2 + pos**2/2.)
+    return (alpha - np.linalg.norm(pos, axis=1)**2 * (2* alpha**2 - 1/2))
 
 
 def trialDeriv(pos, alpha):
-    return -pos**2
+    return -np.linalg.norm(pos, axis=1)**2
 
 
-sim = VQS.VariationalQuantumSimulator(dim=1, numTestPoints=100, domainSize=5, numberOfBoxes=5,
+sim = VQS.VariationalQuantumSimulator(dim=1, numTestPoints=1000, domainSize=2, numberOfBoxes=10,
              testFunction=trialWaveFunc, localEnergyFunction=energyLocal, testFuncDeriv=trialDeriv, startAlpha=1., damping=0.8)
 
 energy = []
 alphas = []
-sim.initializeGrid()
+#sim.initializeGrid()
 for i in range(10) :
     sim.iterate(True)
-    print(sim.getAlpha())
+    print("𝛼: "+ str( sim.getAlpha()))
+    print("E: "+ str( sim.getEnergy()))
     energy += [sim.getEnergy()]
     alphas += [sim.getAlpha()]
 

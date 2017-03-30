@@ -49,6 +49,7 @@ class MCIntegrator:
         Generates a adaptive and stratified grid with ~'numTestPoints'
         according to the density distribution 'density'
         '''
+        
         density /= np.sum(density)
         print("Density", density)
 
@@ -66,7 +67,7 @@ class MCIntegrator:
                 indices = indices[0]
             else:
                 indices = tuple(indices)
-            print("isNAN",indices)
+            
             pointsInBox = max(1, int(round(density[indices]*self.numTestPoints)))
             pointsPerDirection = int(pointsInBox**(1/self.dim))
             directpointsInBox = int(pointsPerDirection**self.dim)

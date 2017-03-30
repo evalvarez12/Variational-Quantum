@@ -77,7 +77,7 @@ class VariationalQuantumSimulator:
         #Calculate the new alpha according to eq. 12.14
         term1, _, _ = self.integrator.integrate(self._getPosLocalEnergyTestFuncDeriv)
         term2, _, _ = self.integrator.integrate(self._getPosTestFuncDeriv)
-        dEdA = 2*(term1 + totalEnergy*term2)
+        dEdA = 2*(term1 - self.energy*term2)
 
         self.alpha = self.alpha - self.gamma*dEdA
 
@@ -159,6 +159,6 @@ class VariationalQuantumSimulator:
         for indices in boxesindices:
             indices = tuple(indices)
             f[indices] = func(np.array(pos[indices]), alpha)
-            f_sum[indices] = sum(f[indices])
+            f_sum[indices] = np.sum(f[indices])
 
         return f, f_sum
