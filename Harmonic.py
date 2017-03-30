@@ -16,7 +16,7 @@ IMAGE_PATH = RESULT_PATH+"/images"
 
 
 iterations = 1000
-analyticalAnswer = 1
+analyticalAnswer = .5
 
 
 
@@ -38,7 +38,8 @@ def funcWrapper(func, pos, dim):
 
 def expectedValH(x, a):
     e = normalizationFactor(x, a)
-    return (1/2.)*(+a*e - a**2*4*x**2*e + x**2*e
+    energyLoc = energyLocal(x, a)
+    return e*energyLoc
 
 
 def normalizationFactor(x, a):
@@ -46,31 +47,63 @@ def normalizationFactor(x, a):
 
 
 def energy(x, a):
-    E = expectedValH(x, a)/normalizationFactor(x, a)
-
-def testFunction(pos, dim):
-    return funcWrapper(trialWaveFunc, pos, dim)
+    energy = expectedValH(x, a)/normalizationFactor(x, a)
+    return energy
 
 
-mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=testFunction)
+def energyLocal(x, a):
+    return (1/2.)*(a - a**2*4*x**2 + x**2)
 
-bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
+
+def testFunction(func, pos, dim):
+    return funcWrapper(func, pos, dim)
+
+
+def dE(x, a):
+
+
+def minimizer()
+
+
 
 
 #density=np.random.rand(mcer.numberOfBoxes, mcer.numberOfBoxes)
-density = np.ones([mcer.numberOfBoxes]*mcer.dim)
+
+
+mcerNormalization = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=intNormalization)
+mcerExpectedValH = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=intExpectedValH)
+mcerX2 = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=intX2)
+mcerELocalX2 = MCIntegrator.MCIntegrator(dim=2, numTestPoints=1000, domainSize=10, numberOfBoxes=5, testFunction=intELocalX2)
+bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
+
 
 error=[]
-for i in range(0,iterations):
-    mcer.generateAdaptiveStratifiedGrid(density=density)
-    totalIntegral, boxIntegral, newDensity = mcer.integrate()
-    error = np.append(error,[abs(1-(totalIntegral/analyticalAnswer))])
 
+a = 1.
+for i in range(iterations):
+
+    densityNormalization = np.ones([mcer.numberOfBoxes]*mcer.dim)
+    densityExpectedValH = np.ones([mcer.numberOfBoxes]*mcer.dim)
+    densityX2 = np.ones([mcer.numberOfBoxes]*mcer.dim)
+    densityELocalX2 = np.ones([mcer.numberOfBoxes]*mcer.dim)
+
+    for j in range(5) :
+        mcerNormalization.generateAdaptiveStratifiedGrid(density=Normalizationdensity)
+        mcerExpectedValH.generateAdaptiveStratifiedGrid(density=ExpectedValHdensity)
+        mcerX2.generateAdaptiveStratifiedGrid(density=X2density)
+        mcerELocalX2.generateAdaptiveStratifiedGrid(density=ELocalX2density)
+
+        totalIntegralNormalization, boxIntegralNormalization, densityNormalization = mcerNormalization.integrate()
+        totalIntegralExpectedValH, boxIntegralExpectedValH, densityExpectedValH = mcerExpectedValH.integrate()
+        totalIntegralX2, boxIntegralX2, densityX2 = mcerX2.integrate()
+        totalIntegralELocalX2, boxIntegralELocalX2, densityELocalX2 = mcerELocalX2.integrate()
+
+    # totalIntegral, boxIntegral, newDensity = mcer.integrate()
+    error = np.append(error, [abs(1-(totalIntegral/analyticalAnswer))])
     print(totalIntegral)
-    bplotter.plotBox(True, False)
-
-    density = newDensity
+    # bplotter.plotBox(True, False)
 
 
-print(str(np.average(error)) + "±" + str(np.std(error)))
-plt.plot(np.absolute(error))
+
+# print(str(np.average(error)) + "±" + str(np.std(error)))
+# plt.plot(np.absolute(error))
