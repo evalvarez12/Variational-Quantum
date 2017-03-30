@@ -42,6 +42,7 @@ sim = VQS.VariationalQuantumSimulator(dim=1, numTestPoints=100, domainSize=5, nu
 
 energy = []
 alphas = []
+sim.initializeGrid()
 for i in range(10) :
     sim.iterate(True)
     energy += [sim.getEnergy()]

@@ -42,7 +42,6 @@ class MCIntegrator:
         boxIntegral = functionArraySummed*self.testPointVol
         totalIntegral = np.sum(boxIntegral)
         newDensity = np.absolute(boxIntegral)/totalIntegral
-        self.iterations += 1
         return np.sum(boxIntegral), boxIntegral, newDensity
 
     def generateAdaptiveStratifiedGrid(self, density, shift=True):
@@ -62,6 +61,7 @@ class MCIntegrator:
         for indices in boxesindices:
             indicesArr = indices
             indices = tuple(indices)
+            print(density)
             pointsInBox = max(1, int(round(density[indices]*self.numTestPoints)))
             pointsPerDirection = int(pointsInBox**(1/self.dim))
             directpointsInBox = int(pointsPerDirection**self.dim)
