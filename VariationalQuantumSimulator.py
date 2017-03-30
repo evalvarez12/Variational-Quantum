@@ -7,13 +7,12 @@ Created on Fri Mar 24 19:59:19 2017
 
 import MCIntegrator
 import numpy as np
-from functools import partial
+#from functools import partial
 
 class VariationalQuantumSimulator:
     '''
     
     '''
-    
     
     ###Functions given by the problem
     testFunction = None
@@ -52,12 +51,13 @@ class VariationalQuantumSimulator:
         
         self.integrator = MCIntegrator.MCIntegrator(dim=dim,
             numTestPoints=numTestPoints, domainSize=10, numberOfBoxes=5)
+            
         self.integrator.generateStratifiedGrid()
         
     def initializeGrid(self, iterations=5):
         for i in range(iterations):
             totalIntegral, boxIntegral, newDensity = self.integrator.integrate(
-            self.testFunction)
+            self._getPosDensity)
             self.integrator.generateAdaptiveStratifiedGrid(newDensity)
             
     def iterate(self, adaptGrid=False):
@@ -78,6 +78,7 @@ class VariationalQuantumSimulator:
         term1 = self.integrator.integrate(self._getPosLocalEnergyTestFuncDeriv)
         term2 = self.integrator.integrate(self._getPosTestFuncDeriv)
         dEdA = 2*(term1 + totalEnergy*term2)
+        
         self.alpha = self.alpha - self.gamma*dEdA
         
         if adaptGrid:
