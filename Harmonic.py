@@ -27,10 +27,10 @@ def trialDeriv(pos, alpha):
     return -pos[:,0]**2
 
 
-sim = VQS.VariationalQuantumSimulator(dim=1, numTestPoints=200, domainSize=4,
+sim = VQS.VariationalQuantumSimulator(dim=1, numTestPoints=1000, domainSize=4,
             numberOfBoxes=20, testFunction=trialWaveFunc,
             localEnergyFunction=energyLocal, testFuncDeriv=trialDeriv,
-            startAlpha=0.6, damping=0.0005)
+            startAlpha=1, damping=0.0005)
 
 #sim.initializeGrid()
 

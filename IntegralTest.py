@@ -9,6 +9,7 @@ import MCIntegrator
 import BoxPlotter
 import matplotlib.pyplot as plt
 import numpy as np
+import csv
 
 RESULT_PATH = "simulation_results"
 IMAGE_PATH = RESULT_PATH+"/images"
@@ -32,25 +33,31 @@ def ringStep(pos):
 
 
 
-values = [[]]*4
-errors = [[]]*4
-steps=3
-x=(np.array(range(steps))+1)*(2000/steps)
-for nt in x:
-    print("---------------------")
-    print("Number of test points "+str(numTestPoints))    
+steps=100
+values = np.zeros([4,steps])
+errors = np.zeros([4,steps])
+x=(np.array(range(steps))+1)*int(4000/steps)
+
+for i in range(4):
+    CSV_FILE = open("integration_ringStep_it-"+str(iterations)+"_step-"+str(steps)+"_met-"+str(i)+".csv", 'w', newline='')  
+    CSV_FILE_WRITER = csv.writer(CSV_FILE)
     
-    mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=numTestPoints,
-                                     domainSize=10, numberOfBoxes=5)
-    
-    bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
-    
-    
-    #density=np.random.rand(mcer.numberOfBoxes, mcer.numberOfBoxes)
-    density = np.ones([mcer.numberOfBoxes]*mcer.dim)
-    
-    #np.array([]*4, dtype=np.ndarray)
-    for i in range(4):
+    for run in range(steps):
+        numTestPoints = x[run]
+        print("---------------------")
+        print("Number of test points: " + str(numTestPoints))
+        print("Grid method: " + str(i))
+        print("Number of Test points: " + str(numTestPoints))
+        
+        mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=numTestPoints,
+                                         domainSize=10, numberOfBoxes=5)
+        
+        #bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
+        
+        
+        density = np.ones([mcer.numberOfBoxes]*mcer.dim)
+        
+        
         error = []
         for itera in range(iterations):
             if i == 0:
@@ -70,11 +77,15 @@ for nt in x:
     
             density = newDensity
     
-        values[i].append(np.average(error))
-        errors[i].append(np.std(error))
-        print(str(i)+" : "+str(np.average(error[i])) +"±"+ str(np.std(error[i])))
+        values[i, run] = (np.average(error))
+        errors[i, run] = (np.std(error))
+        CSV_FILE_WRITER.writerow([numTestPoints, values[i, run], errors[i, run]])
+        print(" > "+str(np.average(error)) +"±"+ str(np.std(error)))
+        
+    CSV_FILE.flush()
+    CSV_FILE.close()
 
-plt.plot(x, np.absolute(errors[0]), '-')
-plt.plot(x, np.absolute(errors[1]), '-')
-plt.plot(x, np.absolute(errors[2]), '-')
-plt.plot(x, np.absolute(errors[3]), '-')
+plt.plot(x, np.absolute(values[0]), '-o')
+plt.plot(x, np.absolute(values[1]), '-o')
+plt.plot(x, np.absolute(values[2]), '-o')
+plt.plot(x, np.absolute(values[3]), '-o')
