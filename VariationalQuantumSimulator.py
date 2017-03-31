@@ -79,8 +79,8 @@ class VariationalQuantumSimulator:
         term1, _, _ = self.integrator.integrate(self._getPosLocalEnergyTestFuncDeriv)
         term2, _, _ = self.integrator.integrate(self._getPosTestFuncDeriv)
         dEdA = 2*(term1 - self.energy*term2)
-
-        self.alpha = self.alpha - self.gamma*dEdA
+        print(dEdA)
+        self.alpha -= self.gamma*dEdA
 
         if adaptGrid:
             self.integrator.generateAdaptiveStratifiedGrid(normDensityPerBox)
@@ -105,20 +105,20 @@ class VariationalQuantumSimulator:
         E_L
         eq. 12.3
         '''
-        return self._funcWrapper(func=self.localEnergyFunction, pos=pos, alpha=self.alpha)
+        return self.localEnergyFunction(alpha=self.alpha, pos=pos)
 
     def _getPosTestFunction(self, pos):
         '''
         Psi_T(alpha)
         '''
-        return self._funcWrapper(func=self.testFunction, pos=pos, alpha=self.alpha)
+        return self.testFunction(pos=pos, alpha=self.alpha)
 
     def _getPosTestFuncDeriv(self, pos):
         '''
         d(ln(Psi))/d alpha
         Term two from eq. 12.13, page 378 in the book
         '''
-        return self._funcWrapper(func=self.testFuncDeriv, pos=pos, alpha=self.alpha)
+        return self.testFuncDeriv(pos=pos, alpha=self.alpha)
 
     ### Use the previous functions to define a few others
     def _getPosEnergy(self, pos):
@@ -126,40 +126,17 @@ class VariationalQuantumSimulator:
         E * Rho
         ~ eq. 12.4
         '''
-        a, b = self._getPosDensity(pos)
-        c, d = self._getPosLocalEnergy(pos)
-        return a*c, b*d
+        return self._getPosDensity(pos) * self._getPosLocalEnergy(pos)
 
     def _getPosLocalEnergyTestFuncDeriv(self, pos):
         '''
         E_L * d(ln(Psi))/d alpha
         Term one from eq. 12.13, page 378 in the book
         '''
-        a, b = self._getPosLocalEnergy(pos)
-        c, d = self._getPosTestFuncDeriv(pos)
-        return a*c, b*d
+        return self._getPosLocalEnergy(pos) * self._getPosTestFuncDeriv(pos)
 
     def _getPosDensity(self, pos):
         '''
         rho = <Psi|Psi>
         '''
-        a, b = self._getPosTestFunction(pos)
-        return a**2, b**2
-
-    def _funcWrapper(self, func, pos, alpha):
-        '''
-        Takes a function only of the position and alpha and turns it into a
-        function of the postion matrix
-        '''
-        numberOfBoxes = len(pos)
-        dim = len(pos[0][0])
-        f = np.array(np.zeros([numberOfBoxes]*dim), dtype=np.ndarray)
-        f_sum = np.array(np.zeros([numberOfBoxes]*dim), dtype=float)
-
-        boxesindices = np.array(np.meshgrid(*[range(numberOfBoxes)]*dim)).T.reshape(-1, dim)
-        for indices in boxesindices:
-            indices = tuple(indices)
-            f[indices] = func(np.array(pos[indices]), alpha)
-            f_sum[indices] = np.sum(f[indices])
-
-        return f, f_sum
+        return self._getPosTestFunction(pos)**2

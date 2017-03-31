@@ -27,21 +27,23 @@ def trialDeriv(pos, alpha):
     return -pos[:,0]**2
 
 
-sim = VQS.VariationalQuantumSimulator(dim=1, numTestPoints=2000, domainSize=4,
+sim = VQS.VariationalQuantumSimulator(dim=1, numTestPoints=200, domainSize=4,
             numberOfBoxes=20, testFunction=trialWaveFunc,
             localEnergyFunction=energyLocal, testFuncDeriv=trialDeriv,
-            startAlpha=0.6, damping=0.8)
+            startAlpha=0.6, damping=0.0005)
+
+#sim.initializeGrid()
 
 energy = []
 alphas = []
-#sim.initializeGrid()
-for i in range(10) :
-    sim.iterate(False)
-    sim.alpha=1/2
+for i in range(100) :
+    sim.iterate(True)
+    #sim.alpha=1/2
     print("𝛼: "+ str( sim.getAlpha()))
     print("E: "+ str( sim.getEnergy()))
     energy += [sim.getEnergy()]
     alphas += [sim.getAlpha()]
 
+plt.plot(np.absolute(alphas))
 # print(energy)
 # print(alphas)

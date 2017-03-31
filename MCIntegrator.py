@@ -37,10 +37,16 @@ class MCIntegrator:
         self.numberOfBoxes=numberOfBoxes
 
     def integrate(self, function):
-        f, functionArraySummed = function(self.testPointPos)
+        f, functionArraySummed = self._funcWrapper(func=function)
+        
+        #print("f=",f)
+        #print("sum(f)=",functionArraySummed)
         
         boxIntegral = functionArraySummed*self.testPointVol
-        totalIntegral = np.sum(boxIntegral)
+        totalIntegral = np.sum(boxIntegral)         
+        
+        #print("I=",totalIntegral)
+        
         newDensity = np.absolute(boxIntegral)/totalIntegral
         return np.sum(boxIntegral), boxIntegral, newDensity
 
@@ -51,7 +57,7 @@ class MCIntegrator:
         '''
         
         density /= np.sum(density)
-        print("Density", density)
+        #print("Density", density)
 
         boxSize = self.domainSize/self.numberOfBoxes
 
@@ -122,3 +128,23 @@ class MCIntegrator:
             a = np.concatenate(a, axis=0)
             d -= 1
         return a
+
+    def _funcWrapper(self, func):
+        '''
+        Takes a function only of the position and alpha and turns it into a
+        function of the postion matrix
+        '''
+        dim=self.dim
+        numberOfBoxes = self.numberOfBoxes
+        pos=self.testPointPos
+        
+        f = np.array(np.zeros([numberOfBoxes]*dim), dtype=np.ndarray)
+        f_sum = np.array(np.zeros([numberOfBoxes]*dim), dtype=float)
+    
+        boxesindices = np.array(np.meshgrid(*[range(numberOfBoxes)]*dim)).T.reshape(-1, dim)
+        for indices in boxesindices:
+            indices = tuple(indices)
+            f[indices] = func(pos=np.array(pos[indices]))
+            f_sum[indices] = sum(f[indices])
+    
+        return f, f_sum
