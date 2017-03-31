@@ -83,7 +83,19 @@ class BoxPlotter:
     # PRIVATE - do not call from outside
     def _plotBox1D(self, show=False, write=True):
         if self.sim.dim == 1:
-            print("1D plotting not implemented yet :(!")
+            plt.figure()
+
+            ax = plt.gca()
+            ax.set_xlim([0, self.sim.domainSize])
+            ax.set_ylim([0, 2])
+            ax.set_aspect('equal')
+            plt.rcParams["figure.figsize"] = [self.plotSize, 2/self.sim.domainSize]
+
+            # Ploting in 2D
+            v = self.sim.getFlatTestPoints()
+            plt.plot(v[:, 0], 1, 'r.')
+
+            self._showWritePlotFile(plt, show, write)
         else:
             print("Dimensionality not correct! Please call 'plotBox()' instead!")
 
