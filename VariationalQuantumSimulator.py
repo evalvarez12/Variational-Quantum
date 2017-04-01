@@ -6,12 +6,15 @@ Created on Fri Mar 24 19:59:19 2017
 """
 
 import MCIntegrator
-import numpy as np
 #from functools import partial
 
 class VariationalQuantumSimulator:
     '''
-
+    Can be used to run a variational quantum simulation as described in
+    Chapter 12 of the book "Computational Physics" by JM Thijssen.
+    All equation numberings refer to this book.
+    
+    Possible improvement: use different MCIntegrator's for the different integrals.
     '''
 
     ###Functions given by the problem
@@ -56,6 +59,9 @@ class VariationalQuantumSimulator:
         self.integrator.generateStratifiedGrid()
 
     def initializeGrid(self, iterations=5):
+        '''
+        Can be used to adapt the grid to the integral.
+        '''
         for i in range(iterations):
             totalIntegral, boxIntegral, newDensity = self.integrator.integrate(
             self._getPosDensity)
@@ -63,16 +69,18 @@ class VariationalQuantumSimulator:
 
     def iterate(self, adaptGrid=False):
         '''
-        adapting the grid will slow down this function
+        Will execute one simulation iteration step, consiting of calculating
+        the four required integrals, the energy of the wave function and the
+        correction for alpha, using the damped steepest decent method
+        (see eq. 12.14).
         '''
 
-        #Calculate the new density and energy
+        #Calculate the new density
         totalDensity, _, normDensityPerBox = self.integrator.integrate(
             self._getPosDensity)
-
+        #Calculate the new energy
         totalEnergy, _, _ = self.integrator.integrate(
             self._getPosEnergy)
-
         self.energy = totalEnergy / totalDensity
 
         #Calculate the new alpha according to eq. 12.14
@@ -81,7 +89,7 @@ class VariationalQuantumSimulator:
         dEdA = 2*(term1 - self.energy*term2)
         print(dEdA)
         self.alpha -= self.gamma*dEdA
-
+        
         if adaptGrid:
             self.integrator.generateAdaptiveStratifiedGrid(normDensityPerBox)
 

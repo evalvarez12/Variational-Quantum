@@ -5,12 +5,10 @@ Created on Fri Mar 24 19:59:19 2017
 @author: rene
 """
 
-import MCIntegrator
 import BoxPlotter
 import VariationalQuantumSimulator as VQS
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.optimize import minimize
 
 RESULT_PATH = "simulation_results"
 IMAGE_PATH = RESULT_PATH+"/images"
