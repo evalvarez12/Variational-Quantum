@@ -38,12 +38,12 @@ sim = VQS.VariationalQuantumSimulator(dim=3, numTestPoints=1000, domainSize=4,
 energy = []
 alphas = []
 for i in range(100):
-    sim.iterate(True)
-    #sim.alpha=1/2
     print("𝛼: "+ str( sim.getAlpha()))
-    print("E: "+ str( sim.getEnergy()))
-    energy += [sim.getEnergy()]
     alphas += [sim.getAlpha()]
+    sim.iterate(True)
+    energy += [sim.getEnergy()]
+    print("E: "+ str( sim.getEnergy()))
+    #sim.alpha=1/2
 
 plt.plot(np.absolute(alphas))
 # print(energy)
