@@ -28,6 +28,7 @@ class MCIntegrator:
     #Local variables. Don't change
     testPointVol = []
     testPointPos = []
+    actNumberOfTestPoints = 0
 
 
     def __init__(self, dim, numTestPoints, domainSize, numberOfBoxes):
@@ -49,10 +50,11 @@ class MCIntegrator:
         #print("sum(f)=",functionArraySummed)
         
         boxIntegral = functionArraySummed*self.testPointVol
+        pointIntegral = f*self.testPointVol
         totalIntegral = np.sum(boxIntegral)
         newDensity = np.absolute(boxIntegral)/totalIntegral
         
-        return totalIntegral, boxIntegral, newDensity
+        return totalIntegral, pointIntegral, newDensity
 
     def generateAdaptiveStratifiedGrid(self, density, shift=True):
         '''
@@ -61,6 +63,7 @@ class MCIntegrator:
         '''
         
         #Normalize the density
+        density = np.abs(density)
         density /= np.sum(density)
 
         #Determine the size of each adative grid box
@@ -118,7 +121,7 @@ class MCIntegrator:
         volumes = np.array(volumes)
         self.testPointPos = boxes
         self.testPointVol = volumes
-        self.numberOfTestPoints = totalPoints
+        self.actNumberOfTestPoints = totalPoints
         return totalPoints
 
     def generateStratifiedGrid(self):
@@ -146,8 +149,10 @@ class MCIntegrator:
         '''
         Returns the test points as simple array
         '''
+        return self._flattenArray(self.testPointPos)
+        
+    def _flattenArray(self, a):
         d = self.dim
-        a = self.testPointPos
         while d > 0:
             a = np.concatenate(a, axis=0)
             d -= 1

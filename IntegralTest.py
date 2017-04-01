@@ -3,6 +3,8 @@
 Created on Fri Mar 24 19:59:19 2017
 
 @author: rene
+
+Benchmarks the performance of different numerical Integration methods.
 """
 
 import MCIntegrator
@@ -10,55 +12,88 @@ import BoxPlotter
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
+import time
 
-RESULT_PATH = "simulation_results"
-IMAGE_PATH = RESULT_PATH+"/images"
-
-
-iterations = 500
-#analyticalAnswer = 1666.666666666   # (2nd line)
-#analyticalAnswer = 7.24378          # (4th line)
-#analyticalAnswer = 23.04            # (Heaviside if-statement)
-analyticalAnswer = 2*np.pi*(3**2-2**2)
 
 
 
 def hyperbel(pos):
+    '''
+    analyticalAnswer = 1/6
+    domain = 1
+    dim = 2
+    '''
     return np.sum((pos[:]-5.)**2., axis=1)
 
 def ringStep(pos):
+    '''
+    Doghnut-shaped area with value 2;
+    analyticalAnswer = 2*np.pi*(3**2-2**2)
+    domain >= 6
+    dim = 2
+    '''
     d = np.linalg.norm(pos-5, axis=1)
     return ((d>2) & (d<3))*2
 
 
 
 
-steps=100
+#Simulation parameters
+steps = 100
+iterations = 500
+numberOfBoxes = 5
+maxNumPoints = 4000
+
+#ringStep
+intFunc = ringStep
+analyticalAnswer = 2*np.pi*(3**2-2**2)
+domainSize = 10
+dim = 2
+
+#hyperbel
+#intFunc = hyperbel
+#analyticalAnswer = 1/6
+#domainSize = 1
+#dim=2
+
+RESULT_PATH = "results/integration_test"
+IMAGE_PATH = RESULT_PATH+"/images"
+
+
+
+#Local iteration storage
 values = np.zeros([4,steps])
 errors = np.zeros([4,steps])
-x=(np.array(range(steps))+1)*int(4000/steps)
+x=(np.array(range(steps))+1)*int(maxNumPoints/steps)
 
+
+#For each of the four integration methods
 for i in range(4):
-    CSV_FILE = open("integration_ringStep_it-"+str(iterations)+"_step-"+str(steps)+"_met-"+str(i)+".csv", 'w', newline='')  
+    #Create a CSV-Logger for the results
+    CSV_FILE = open(RESULT_PATH+"/ringStep_it-"+str(iterations)+"_step-"+str(steps)+"_met-"+str(i)+".csv", 'w', newline='')  
     CSV_FILE_WRITER = csv.writer(CSV_FILE)
     
+    realTP=[]
+    #Run for different number of points
     for run in range(steps):
+        startTime = time.time()
+        
         numTestPoints = x[run]
         print("---------------------")
-        print("Number of test points: " + str(numTestPoints))
         print("Grid method: " + str(i))
         print("Number of Test points: " + str(numTestPoints))
         
-        mcer = MCIntegrator.MCIntegrator(dim=2, numTestPoints=numTestPoints,
-                                         domainSize=10, numberOfBoxes=5)
+        mcer = MCIntegrator.MCIntegrator(dim=dim, numTestPoints=numTestPoints,
+            domainSize=domainSize, numberOfBoxes=numberOfBoxes)
         
         #bplotter = BoxPlotter.BoxPlotter(mcer, RESULT_PATH, IMAGE_PATH)
-        
         
         density = np.ones([mcer.numberOfBoxes]*mcer.dim)
         
         
         error = []
+        
+        #Run the number of iterations specified
         for itera in range(iterations):
             if i == 0:
                 mcer.generateUniformGrid()
@@ -69,7 +104,8 @@ for i in range(4):
             elif i == 3:
                 mcer.generateAdaptiveStratifiedGrid(density=density)
     
-            totalIntegral, boxIntegral, newDensity = mcer.integrate(function=ringStep)
+            realTP += [mcer.actNumberOfTestPoints]
+            totalIntegral, _, newDensity = mcer.integrate(function=intFunc)
             error = np.append(error,[abs(1-(totalIntegral/analyticalAnswer))])
     
             #print(totalIntegral)
@@ -79,8 +115,13 @@ for i in range(4):
     
         values[i, run] = (np.average(error))
         errors[i, run] = (np.std(error))
-        CSV_FILE_WRITER.writerow([numTestPoints, values[i, run], errors[i, run]])
-        print(" > "+str(np.average(error)) +"±"+ str(np.std(error)))
+        realTestPoints = np.average(realTP)
+        t = time.time() - startTime
+        
+        #Write the changes to the CSV and console
+        CSV_FILE_WRITER.writerow([realTestPoints, values[i, run], errors[i, run], t])
+        print(" > The error was on avarage "+str(np.average(error)) +"±"+ str(np.std(error)))
+        print(" > It took "+str(t)+"s")
         
     CSV_FILE.flush()
     CSV_FILE.close()

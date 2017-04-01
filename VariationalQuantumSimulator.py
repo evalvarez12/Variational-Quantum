@@ -26,11 +26,18 @@ class VariationalQuantumSimulator:
     integrator = None
 
     ###Local optimization variables
-    #Energy of the test-function
+    #Last Energy of the test-function
     energy = 0
 
-    #The variational parameter
+    #Last variational parameter
     alpha = 0
+    
+    #Last correction
+    correction = 0
+    
+    #Last density distribution
+    density = []
+    tpos = []
 
     #The damping constant, between 0 and 1, where
     #0 -> no correction
@@ -76,8 +83,11 @@ class VariationalQuantumSimulator:
         '''
 
         #Calculate the new density
-        totalDensity, _, normDensityPerBox = self.integrator.integrate(
+        totalDensity, density, normDensityPerBox = self.integrator.integrate(
             self._getPosDensity)
+        self.density = density
+        self.tpos = self.integrator.testPointPos
+        
         #Calculate the new energy
         totalEnergy, _, _ = self.integrator.integrate(
             self._getPosEnergy)
@@ -87,7 +97,8 @@ class VariationalQuantumSimulator:
         term1, _, _ = self.integrator.integrate(self._getPosLocalEnergyTestFuncDeriv)
         term2, _, _ = self.integrator.integrate(self._getPosTestFuncDeriv)
         dEdA = 2*(term1 - self.energy*term2)
-        print(dEdA)
+        #print(dEdA)
+        self.correction = dEdA
         self.alpha -= self.gamma*dEdA
         
         if adaptGrid:
@@ -104,6 +115,15 @@ class VariationalQuantumSimulator:
 
     def getEnergy(self):
         return self.energy
+        
+    def getCorrection(self):
+        return self.correction
+        
+    def getAlphaCorrection(self):
+        return self.gamma * self.correction
+                
+    def getWFDensity(self):
+        return self.integrator._flattenArray(self.density), self.integrator._flattenArray(self.tpos)
 
 
     ##### Wrap and combine all the functions we need!
@@ -148,3 +168,4 @@ class VariationalQuantumSimulator:
         rho = <Psi|Psi>
         '''
         return self._getPosTestFunction(pos)**2
+
