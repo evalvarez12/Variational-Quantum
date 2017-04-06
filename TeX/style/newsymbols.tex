@@ -1,0 +1,153 @@
+%Stolen from http://www.dfcd.net/articles/latex/latex.html
+% **#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#
+\makeatletter % Need for anything that contains an @ command
+
+\let\vaccent=\v % rename builtin command \v{} to \vaccent{}
+\renewcommand{\v}[1]{\ensuremath{\mathbf{#1}}} % for vectors
+\newcommand{\gv}[1]{\ensuremath{\mbox{\boldmath$ #1 $}}} 
+% for vectors of Greek letters
+\newcommand{\uv}[1]{\ensuremath{\mathbf{\hat{#1}}}} % for unit vector
+\newcommand{\abs}[1]{\left| #1 \right|} % for absolute value
+\newcommand{\avg}[1]{\left< #1 \right>} % for average
+\let\underdot=\d % rename builtin command \d{} to \underdot{}
+\renewcommand{\d}[2]{\frac{d #1}{d #2}} % for derivatives
+\newcommand{\niced}[2]{\nicefrac{d #1}{d #2}} % for in-text-derivatives
+\newcommand{\nicedd}[2]{\nicefrac{d^2 #1}{d #2^2}} % for double derivatives
+\newcommand{\dd}[2]{\frac{d^2 #1}{d #2^2}} % for in-text-double derivatives
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}} 
+% for partial derivatives
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}} 
+% for double partial derivatives
+\newcommand{\pdc}[3]{\left( \frac{\partial #1}{\partial #2}
+	\right)_{#3}} % for thermodynamic partial derivatives
+\newcommand{\ket}[1]{\left| #1 \right>} % for Dirac bras
+\newcommand{\bra}[1]{\left< #1 \right|} % for Dirac kets
+\newcommand{\braket}[2]{\left< #1 \vphantom{#2} \right|
+	\left. #2 \vphantom{#1} \right>} % for Dirac brackets
+\newcommand{\matrixel}[3]{\left< #1 \vphantom{#2#3} \right|
+	#2 \left| #3 \vphantom{#1#2} \right>} % for Dirac matrix elements
+\newcommand{\braoket}[3]{\left< #1 \vphantom{#2#3} \right|
+	#2 \left| #3 \vphantom{#1#2} \right>} % for Dirac matrix elements
+\newcommand{\grad}[1]{\gv{\nabla} #1} % for gradient
+\let\divsymb=\div % rename builtin command \div to \divsymb
+\renewcommand{\div}[1]{\gv{\nabla} \cdot #1} % for divergence
+\newcommand{\curl}[1]{\gv{\nabla} \times #1} % for curl
+\let\baraccent=\= % rename builtin command \= to \baraccent
+\renewcommand{\=}[1]{\stackrel{#1}{=}} % for putting numbers above =
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}
+\theoremstyle{remark}
+\newtheorem*{rmk}{Remark}
+% **#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#
+
+
+%Equalssign with hat/corresponds to   \equalhat
+\newcommand\equalhat{%
+	\stackrel{\Lambda}{=}
+}
+%Equalssign with !
+\newcommand\shallbe{%
+	\stackrel{!}{=}
+}
+% := and =:
+\newcommand{\defeq}{\vcentcolon=}
+\newcommand{\eqdef}{=\vcentcolon}
+
+
+
+%Encirecled Numbers, used in Graphics
+\let\depth\relax
+\def\X#1{%
+	%#1%
+	%\textcircled{#1}%
+	\raisebox{0.9pt}{\textcircled{\raisebox{-.9pt}{#1}}}%
+	%\ding{\numexpr171+#1\relax}%
+}
+
+\usepackage{wasysym}
+
+%Cancel package - for canceling terms (e.g. 5+\cancelto{1-1}{0}=5)
+\usepackage[makeroom]{cancel}
+
+%e.g. \lightning for fomulae / expression, that contradict each other.
+\usepackage{ stmaryrd }
+
+
+%Different (parts of) circles, e.g. for contour integrals.
+\newcommand{\pie}[1]{%
+	\begin{tikzpicture}
+	\draw (0,0) circle (1ex);\fill (1ex,0) arc (0:#1:0.85) -- (0,0) -- cycle;
+	\end{tikzpicture}%
+}
+
+\newcommand{\circleseq}[2]{%
+	\begin{tikzpicture}%
+	\draw (0,0) arc (#1:#2:0.85ex);%
+	\end{tikzpicture}%
+}
+
+\newcommand{\lefthalfcircle}{%
+	\circleseq{90}{270} %
+}
+
+\newcommand{\righthalfcircle}{%
+	\circleseq{-90}{90} %
+}
+\newcommand{\upperhalfcircle}{%
+	\circleseq{0}{180} %
+}
+
+\newcommand{\lowerhalfcircle}{%
+	\circleseq{180}{360} %
+}
+
+%Bitcoin symbol!
+\def\bitcoin{%
+	\leavevmode
+	\vtop{\offinterlineskip %\bfseries
+		\setbox0=\hbox{B}%
+		\setbox2=\hbox to\wd0{\hfil\hskip-.03em
+			\vrule height .3ex width .15ex\hskip .08em
+			\vrule height .3ex width .15ex\hfil}
+		\vbox{\copy2\box0}\box2}}
+
+
+%For unity matrix (\mathbbm{1})
+\usepackage{bbm}
+
+
+%functions!
+%residue
+\DeclareMathOperator{\res}{res}
+%error-function
+\DeclareMathOperator{\erfc}{erf}
+%Heaviside function
+\DeclareMathOperator{\heaviside}{H}
+%Span "function"
+\DeclareMathOperator{\spanf}{span}
+%Trace function
+\DeclareMathOperator{\Trace}{Tr}
+%Trace function
+\DeclareMathOperator{\trace}{tr}
+%Rank function
+\DeclareMathOperator{\Rank}{Rank}
+%Rank function
+\DeclareMathOperator{\rank}{rank}
+
+
+
+%variables
+%%Fluid dynamics
+%Hartmann-number
+\DeclareMathOperator{\Hartmann}{Ha}
+%Reynolds-number
+\DeclareMathOperator{\Reynolds}{Re}
+%Prandtl-number
+\DeclareMathOperator{\Prandtl}{Pr}
+%Rayleigh-number
+\DeclareMathOperator{\Rayleigh}{Ra}
+%Peclet-number
+\DeclareMathOperator{\Peclet}{Pe}

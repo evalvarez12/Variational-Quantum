@@ -1,0 +1,43 @@
+\documentclass[border=0pt]{standalone}
+
+\input{../style/general.tex}
+\input{../style/newsymbols.tex}
+\input{../style/graphs.tex}
+
+\usepgfplotslibrary{patchplots}
+%\usepackage{pgffor}
+\pgfplotsset{compat=1.13}
+
+\begin{document}
+	\foreach \met in {0, 1, 2, 3}{
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin=-0, xmax=10,
+			ymin=-0, ymax=10,
+			xlabel={$x$}, ylabel={$y$},
+			unit vector ratio*=1 1,
+			width=5cm,
+		]
+			%\addplot[blue!20] {};
+	
+			\addplot[
+				only marks, mark=*, mark options={scale=0.4, fill=black},
+			] table[
+				col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}},
+			] {data/ringStep_mesh_N-225_met-\met.csv};
+			
+			\addplot[black, mark=none] coordinates {(2,0) (2,10)};
+			\addplot[black, mark=none] coordinates {(4,0) (4,10)};
+			\addplot[black, mark=none] coordinates {(6,0) (6,10)};
+			\addplot[black, mark=none] coordinates {(8,0) (8,10)};
+			
+			
+			\addplot[black, mark=none] coordinates {(0,2) (10,2)};
+			\addplot[black, mark=none] coordinates {(0,4) (10,4)};
+			\addplot[black, mark=none] coordinates {(0,6) (10,6)};
+			\addplot[black, mark=none] coordinates {(0,8) (10,8)};
+		\end{axis}
+	\end{tikzpicture}
+}
+			
+\end{document}
