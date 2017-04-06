@@ -23,7 +23,7 @@ class MCIntegrator:
     #Size of the integration domain
     domainSize = 4
     #Number of boxes per dimension for adaptiveness
-    numberOfBoxes = 50
+    numberOfBoxes = 5
 
     #Local variables. Don't change
     testPointVol = []
@@ -56,7 +56,7 @@ class MCIntegrator:
         
         return totalIntegral, pointIntegral, newDensity
 
-    def generateAdaptiveStratifiedGrid(self, density, shift=True):
+    def generateAdaptiveStratifiedGrid(self, density, shift=True, addRandom=True):
         '''
         Generates a adaptive (according to density, if it is not a matrix of ones)
         and stratified (if shift=True, else a uniform) grid with ~'numTestPoints'.
@@ -88,32 +88,36 @@ class MCIntegrator:
                 indices = tuple(indices)
             
             #Calculate how many test points we need to put in this box
-            pointsInBox = max(1, int(round(density[indices]*self.numTestPoints)))
-            pointsPerDirection = int(pointsInBox**(1/self.dim))
-            totalPoints+=pointsInBox
+            supPointsInBox = max(1, int(round(density[indices]*self.numTestPoints)))
+            pointsPerDirection = max(1, int(supPointsInBox**(1/self.dim)))
             #How many points can we put into a grid?
             directpointsInBox = int(pointsPerDirection**self.dim)
-
-            # Generate the random points, that don't fit in the grid
-            box = (np.random.rand((pointsInBox-directpointsInBox), self.dim)+indicesArr)*boxSize
-
+            pointsInBox=directpointsInBox
+            
             # Generate the (stratified) grid-points
-            if pointsPerDirection > 0:
-                # Generate the even grid
-                linspaces = [np.linspace((i*boxSize), ((i+1)*boxSize), pointsPerDirection, endpoint=False) for i in indicesArr]
-                box1 = np.array(np.meshgrid(*linspaces)).T.reshape(-1, self.dim)
+            # Generate the even grid
+            linspaces = [np.linspace((i*boxSize), ((i+1)*boxSize), pointsPerDirection, endpoint=False) for i in indicesArr]
+            box = np.array(np.meshgrid(*linspaces)).T.reshape(-1, self.dim)
+            
+            
+            l = boxSize/pointsPerDirection
+            if shift:                
+                # Now move (stratify) the grid-points
+                box += np.random.rand(directpointsInBox, self.dim)*l
+            else:
+                box += l/2
                 
                 
-                l = boxSize/pointsPerDirection
-                if shift:                
-                    # Now move (stratify) the grid-points
-                    box1 += np.random.rand(directpointsInBox, self.dim)*l
-                else:
-                    box1 += l/2
+            # Generate the random points, that don't fit in the grid
+            pointsRandom = (supPointsInBox-directpointsInBox)
+            if ((pointsRandom > 0) and addRandom):
+                pointsInBox+=pointsRandom
+                box1 = (np.random.rand(pointsRandom, self.dim)+indicesArr)*boxSize
                 #Now put the random and the stratified point in the same array
-                box = np.concatenate([box1, box])
+                box = np.concatenate([box, box1])
             
             #Done with this box
+            totalPoints+=pointsInBox
             boxes[indices] = box
             volumes[indices] = (boxSize**self.dim)/pointsInBox
         
@@ -125,26 +129,26 @@ class MCIntegrator:
         self.actNumberOfTestPoints = totalPoints
         return totalPoints
 
-    def generateStratifiedGrid(self):
+    def generateStratifiedGrid(self, addRandom=True):
         '''
         Generates uniform grid with ~'numTestPoints'
         '''
         density = np.ones([self.numberOfBoxes] * self.dim)
-        self.generateAdaptiveStratifiedGrid(density=density)
+        self.generateAdaptiveStratifiedGrid(density=density, shift=True, addRandom=addRandom)
 
-    def generateUniformGrid(self):
+    def generateUniformGrid(self, addRandom=True):
         '''
         Generates uniform grid with ~'numTestPoints'
         '''
         density = np.ones([self.numberOfBoxes] * self.dim)
-        self.generateAdaptiveStratifiedGrid(density=density, shift=False)
+        self.generateAdaptiveStratifiedGrid(density=density, shift=False, addRandom=addRandom)
 
-    def generateAdaptiveUniformGrid(self, density):
+    def generateAdaptiveUniformGrid(self, density, addRandom=True):
         '''
         Generates uniform adaptive grid with ~'numTestPoints'
         according to the density distribution 'density'
         '''
-        self.generateAdaptiveStratifiedGrid(density=density, shift=False)
+        self.generateAdaptiveStratifiedGrid(density=density, shift=False, addRandom=addRandom)
 
     def getFlatTestPoints(self):
         '''

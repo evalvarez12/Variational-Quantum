@@ -47,6 +47,7 @@ intFunc = ringStep
 analyticalAnswer = 2*np.pi*(3**2-2**2)
 domainSize = 10
 dim = 2
+addRandom = True
 
 numTestPoints = 25*(3**2)
 
@@ -78,13 +79,13 @@ for i in range(4):
     #Run the number of iterations specified
     for itera in range(iterations):
         if i == 0:
-            mcer.generateUniformGrid()
+            mcer.generateUniformGrid(addRandom=addRandom)
         elif i == 1:
-            mcer.generateAdaptiveUniformGrid(density=density)
+            mcer.generateAdaptiveUniformGrid(density=density, addRandom=addRandom)
         elif i == 2:
-            mcer.generateStratifiedGrid()
+            mcer.generateStratifiedGrid(addRandom=addRandom)
         elif i == 3:
-            mcer.generateAdaptiveStratifiedGrid(density=density)
+            mcer.generateAdaptiveStratifiedGrid(density=density, addRandom=addRandom)
 
         totalIntegral, _, newDensity = mcer.integrate(function=intFunc)
 
@@ -93,7 +94,7 @@ for i in range(4):
         density = newDensity
         
     bplotter.plotBox(True, True)
-    CSV_FILE = open(RESULT_PATH+"/ringStep_mesh_N-"+str(numTestPoints)+"_met-"+str(i)+".csv", 'w', newline='')  
+    CSV_FILE = open(RESULT_PATH+"/ringStep_mesh"+"_r-"+str(addRandom)+"_N-"+str(numTestPoints)+"_met-"+str(i)+".csv", 'w', newline='')  
     CSV_FILE_WRITER = csv.writer(CSV_FILE)
     points=mcer.getFlatTestPoints()
     for p in points:
