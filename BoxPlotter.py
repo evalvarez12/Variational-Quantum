@@ -50,11 +50,7 @@ class BoxPlotter:
     Generates a plot title
     '''
     def _getPlotTitle(self):
-        # Create the figure title
-        it = "I: %05.f" % self.sim.iterations
-        energy = ", E=%.3f" % self.sim.getEnergy()
-        title = it+energy
-        return title
+        return ""
 
     '''
     PRIVATE - do not call from outside
@@ -71,9 +67,6 @@ class BoxPlotter:
             if write:
                 pic = 'frame_' + str(self.plots) + '.png'
                 plt.savefig(self.IMAGE_PATH+"/"+pic, box_inches='tight', dpi=100)
-                self.VIDEO_DESC_FILE.write("file "+pic+"\n")
-                self.VIDEO_DESC_FILE.write("duration %.3f\n" % (self.pastTimeSinceLastPlot*20))
-                self.VIDEO_DESC_FILE.flush()
 
             if show:
                 plt.show()
