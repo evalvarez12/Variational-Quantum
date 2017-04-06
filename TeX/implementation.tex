@@ -1,3 +1,24 @@
 \section{Implementation}
 
-Introduction
+To realize the Monte Carlo integration we explored different methods and compared the results obtained
+in order to gain a better insight on how to create a better general integrator. Each method differs in how
+the points in the domain are taken to evaluate the integral.
+
+\subsection{Different Methods}
+
+The following integrtion schemes \cite{MCmethods} were used for comparison:
+\begin{enumerate}
+  \item Uniform mesh - The sample points are taken in a uniform mesh trough th entire domain.
+  \item Adaptive - The domain is divided uniformly in square boxes, for each box a meshgrid is created
+  specified by a density value which specifies the total number of points inside the box.
+  \item Stratified - The entire domain is divided in a uniform mesh, where for each quadrant of the mesh
+  a single point is choosen randomly inside.
+  \item AdaptiveStratified - Basically a combination of both methods adaptive and stratified.
+\end{enumerate}
+
+To compare each we used a test function on which we evaluated the different integrals.
+The test function consisted on a donut shaped  in a 2-dimensional domain. The resulting
+sample points for each method are shown in fig. \ref{} and the table below shows the error
+obtained in each case.
+
+INSERT RESULT TABLE
