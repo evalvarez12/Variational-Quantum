@@ -73,8 +73,8 @@ def trialDeriv(pos, alpha):
 #Simulation parameters
 dim=6
 iterations = 50
-damping = 5*10**(-5)
-startAlpha = 0
+damping = 3*10**(-5)
+startAlpha = 0.5
 numTestPoints = 10**(6)
 domainSize = 3
 numberOfBoxes = 3
@@ -84,7 +84,7 @@ IMAGE_PATH = RESULT_PATH+"/images"
 
 
 #Create a CSV-Logger for the results
-CSV_FILE = open(RESULT_PATH+"/hydrogen-log_it-"+str(iterations)+"_damp-"+str(damping)+"_nTP-"+str(numTestPoints)+"_-sA"+str(startAlpha)+".csv", 'w', newline='')
+CSV_FILE = open(RESULT_PATH+"/helium-log_it-"+str(iterations)+"_damp-"+str(damping)+"_nTP-"+str(numTestPoints)+"_-sA"+str(startAlpha)+".csv", 'w', newline='')
 dic = ['iterations', 'energy', 'alpha', 'corr', 'corrA']
 CSV_FILE_WRITER = csv.DictWriter(CSV_FILE, dic)
 

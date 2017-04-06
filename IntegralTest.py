@@ -123,7 +123,7 @@ for i in range(4):
         print(" > The error was on avarage "+str(np.average(error)) +"±"+ str(np.std(error)))
         print(" > It took "+str(t)+"s")
         
-    CSV_FILE.flush()
+        CSV_FILE.flush()
     CSV_FILE.close()
 
 plt.plot(x, np.absolute(values[0]), '-o')
