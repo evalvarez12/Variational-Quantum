@@ -1,7 +1,7 @@
-\section{Monte Carlo Integration}
+\section{Making a Monte Carlo integrator}
 
-First, we explored different methods and compared the results obtained
-in order to gain a better insight on how to create a better general integrator. Each method differs in how
+First, we explored different methods
+in order to gain a better insight on how to create a better general integrator. We tested 4 methods, where each differs in how
 the points in the domain are chosen to evaluate the integral.
 The integration schemes \cite{MCmethods} used are:
 \begin{enumerate}
@@ -15,17 +15,21 @@ The integration schemes \cite{MCmethods} used are:
   \item Adaptive Stratified - Basically a combination of both methods adaptive and stratified.
 \end{enumerate}
 
-To compare each we used a test function on which we evaluated the different integrals.
-The test function consisted on a donut shaped  in a 2-dimensional domain. The resulting
-sample points for each method are shown in fig. \ref{} and the table below shows the error
-obtained in each case.
 
+To compare each method we used a test function on which we evaluated the integrals.
+This test function consisted on a donut shaped with value constant value in a 2-dimensional domain, from which
+we can know the exact value of the integral easily. The results
+of the error obtained for the different methods as a function of the number of points used is shown in fig. \ref{mc_errs},
+ where 500 repetitions where used for each number of points and in the case of adaptive methods the entire integration
+ domain was divided into 25 boxes. As
+expected the best method is the adaptive stratified which has also gives the smallest standard deviation from the error as seen in the error bars.
+Additionally is important to distinguish the steps in the error of the uniform static
+method which are the systematic error introduced by the regular mesh. This shows why we are interested in using random sample in order to
+get more precise results.
 \begin{figure*}
   \begin{center}
   \includegraphics[scale=1 ]{graphs/graphtest.pdf}
   \caption{}
-  \label{}
+  \label{mc_errs}
   \end{center}
 \end{figure*}
-
-INSERT RESULT TABLE
