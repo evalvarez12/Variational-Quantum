@@ -1,3 +1,9 @@
 \section{Theory}
 
-Introduction
+Our goal is to find the ground state energy of a helium atom, using the variational Monte Carlo method. To this end we will use trial wave functions $\psi_T(\textbf{r},\alpha)$, which is dependent on position $\textbf{r}$ and some parameter $\alpha$. Notice that it is not dependent on time; we are merely interested in the ground state energy and that does not evolve over time. In order to find the expectation value of the ground state energy we can use equation \ref{eq_groundstate}: 
+
+\begin{equation}\label{eq_groundstate}
+E(\alpha) = \frac{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)H\psi_T(\textbf{r},\alpha)}{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)}
+\end{equation}
+
+Here $H$ is the Hamiltonian and $E(\alpha) \geq E_0$ is the approximation of the ground state energy which is always higher than or equal to the actual ground state energy $E_0$.  We 
