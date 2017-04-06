@@ -6,4 +6,12 @@ Our goal is to find the ground state energy of a helium atom, using the variatio
 E(\alpha) = \frac{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)H\psi_T(\textbf{r},\alpha)}{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)}
 \end{equation}
 
-Here $H$ is the Hamiltonian and $E(\alpha) \geq E_0$ is the approximation of the ground state energy which is always higher than or equal to the actual ground state energy $E_0$.  We 
+Here $H$ is the Hamiltonian and $E(\alpha) \geq E_0$ is the approximation of the ground state energy which is always higher than or equal to the actual ground state energy $E_0$.  We will also define the \textit{local energy} $E_L = \frac{H\psi_T(\textbf{r},\alpha)}{\psi_T(\textbf{r},\alpha)}$ which is a flat function in case the $\psi_T(\textbf{r},\alpha) = \psi_0(\textbf{r})$. By evaluating the variance of $E_L$, we can approximate how far from the ground state energy we are. If the variance is equal to zero we have found an exact solution. Meanwhile we can make use this local energy as well, by simplifying equation \ref{eq_groundstate} to equation \ref{eq_groundstate2}
+
+\begin{equation}\label{eq_groundstate2}
+E(\alpha) = \frac{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)E_L(\textbf{r},\alpha)}{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)}
+\end{equation}
+
+which is easier to work with due to the lack of a Hamiltonian. \\
+
+In order to make the best use of finite integration steps, we will sample not \textit{entirely} at random, but rather by iteratively in such a way that we place our finite sample points there where the wave function is non-zero. To this end we start with an entirely random sample and we calculate the integral using the Monte Carlo method, keeping track of the contribution in a small volume. Volumes where the contribution is high will get more sample points in the next iteration, and volumes where the contribution is low will get less sample points. In such a way we adaptively optimize the distribution of data points. Notice that within a volume the data points are still random. We will investigate less effective methods as well, to illustrate the use of this adaptive method. 
