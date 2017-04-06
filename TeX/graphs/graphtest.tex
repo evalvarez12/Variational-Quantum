@@ -1,0 +1,50 @@
+\documentclass[border=0pt]{standalone}
+
+\input{../style/general.tex}
+\input{../style/newsymbols.tex}
+\input{../style/graphs.tex}
+
+\usepgfplotslibrary{patchplots}
+\usepackage{pgffor}
+\pgfplotsset{compat=1.13}
+
+\begin{document}
+	\begin{tikzpicture}
+		\begin{axis}[
+			xmin=0, xmax=2100,
+			ymin=-0.01, ymax=0.36,
+			%xlabel={Undeflected tip distance $r_0$ (\unit{nm})}, xtick={-.5, 0, 0.5, 1, 1.5, 2, 2.5,3}, ylabel={Tip deflection $\Delta r$ (\unit{nm})}, %legend pos=outer north east
+			%unit vector ratio=1 1,
+			width=14cm,
+			%cycle list name={moreland},
+			cycle list={orange, green, red, blue},
+			legend pos=north east,
+		]
+		
+			
+			\foreach \met in {0,1,2,3}{
+			
+				\addplot+[%scatter, only marks, mark=*, mark size=0.15,
+					scatter, only marks, each nth point=3, forget plot,
+					mark=none,
+					error bars/.cd,
+						y dir=both, y explicit, 
+				] table[
+					col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}},  y error index=2
+				] {data/ringStep_it-500_step-100_met-\met.csv};
+				
+				
+				\addplot+[
+					mark=none,
+				] table[col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}}] {data/ringStep_it-500_step-100_met-\met.csv};
+			}
+			
+			\addlegendentry{Uniform Static}
+			\addlegendentry{Uniform Adaptive}
+			\addlegendentry{Stratified Static}
+			\addlegendentry{Stratified Adaptive}
+			
+		\end{axis}
+	\end{tikzpicture}
+			
+\end{document}
