@@ -39,10 +39,10 @@ def ringStep(pos):
 
 
 #Simulation parameters
-steps = 100
-iterations = 500
+steps = 30
+iterations = 1000
 numberOfBoxes = 5
-maxNumPoints = 4000
+maxNumPoints = 2000
 
 #ringStep
 intFunc = ringStep
@@ -73,11 +73,11 @@ for i in range(4):
     CSV_FILE = open(RESULT_PATH+"/ringStep_it-"+str(iterations)+"_step-"+str(steps)+"_maxN-"+str(maxNumPoints)+"_met-"+str(i)+".csv", 'w', newline='')  
     CSV_FILE_WRITER = csv.writer(CSV_FILE)
     
-    realTP=[]
     #Run for different number of points
     for run in range(steps):
         startTime = time.time()
         
+        realTP=[]
         numTestPoints = x[run]
         print("---------------------")
         print("Grid method: " + str(i))
@@ -119,7 +119,7 @@ for i in range(4):
         t = time.time() - startTime
         
         #Write the changes to the CSV and console
-        CSV_FILE_WRITER.writerow([realTestPoints, values[i, run], errors[i, run], t])
+        CSV_FILE_WRITER.writerow([realTestPoints, values[i, run], errors[i, run], t, numTestPoints])
         print(" > The error was on avarage "+str(np.average(error)) +"±"+ str(np.std(error)))
         print(" > It took "+str(t)+"s")
         
