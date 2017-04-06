@@ -124,6 +124,9 @@ for i in range(4):
         print(" > It took "+str(t)+"s")
         
         CSV_FILE.flush()
+        
+        
+        
     CSV_FILE.close()
 
 plt.plot(x, np.absolute(values[0]), '-o')
