@@ -19,13 +19,24 @@ import csv
 
 def trialWaveFunc(pos, alpha):
     ''' Psi_T; page 377 '''
-    r=np.linalg.norm(pos,axis=1)
-    return np.exp(-alpha*(r**2))
+    r1=np.linalg.norm(pos[:,0:2],axis=1)
+    r2=np.linalg.norm(pos[:,3:5],axis=1)
+    r12=np.linalg.norm(pos[:,3:5]-pos[:,0:2],axis=1)
+    return np.exp(-alpha*(r1**2))*np.exp(-alpha*(r2**2))*np.exp(r12/(2*(1+alpha*(r12))))
 
 def energyLocal(pos, alpha):
     ''' E_L; equation 12.10 '''
-    r=np.linalg.norm(pos,axis=1)
-    return -1/r - 1/2 * alpha * (alpha - 2/r)
+    print(len(pos))
+    print(len(pos[0]))
+    x1=pos[:,0:2]
+    x2=pos[:,3:5]
+    x12 = x2-x1
+    r1=np.linalg.norm(x1,axis=1)
+    r2=np.linalg.norm(x2,axis=1)
+    r12=np.linalg.norm(x12,axis=1)
+    print(x1)
+    print(x2)
+    return -4 + alpha/(1+alpha*r12) + alpha/((1+alpha*r12)**2) + alpha/((1+alpha*r12)**3) - alpha/(4*(1+alpha*r12)**4) + ((x12/r12)*(x1/r1-x2/r2))/(1+alpha*r12)
 
 
 def trialDeriv(pos, alpha):    
@@ -35,12 +46,13 @@ def trialDeriv(pos, alpha):
     
 
 #Simulation parameters
+dim=6
 iterations = 100
 damping = 0.00005
 startAlpha = 3
 numTestPoints = 5000
 domainSize = 4
-numberOfBoxes = 7
+numberOfBoxes = 3
 
 RESULT_PATH = "results/systems"
 IMAGE_PATH = RESULT_PATH+"/images"
@@ -52,7 +64,7 @@ dic = ['iterations', 'energy', 'alpha', 'corr', 'corrA']
 CSV_FILE_WRITER = csv.DictWriter(CSV_FILE, dic)
 
 
-sim = VQS.VariationalQuantumSimulator(dim=3, numTestPoints=numTestPoints, domainSize=domainSize,
+sim = VQS.VariationalQuantumSimulator(dim=dim, numTestPoints=numTestPoints, domainSize=domainSize,
             numberOfBoxes=numberOfBoxes, testFunction=trialWaveFunc,
             localEnergyFunction=energyLocal, testFuncDeriv=trialDeriv,
             startAlpha=startAlpha, damping=damping)
