@@ -18,25 +18,41 @@ import csv
 
 
 def trialWaveFunc(pos, alpha):
-    ''' Psi_T; page 377 '''
-    r1=np.linalg.norm(pos[:,0:2],axis=1)
-    r2=np.linalg.norm(pos[:,3:5],axis=1)
-    r12=np.linalg.norm(pos[:,3:5]-pos[:,0:2],axis=1)
-    return np.exp(-alpha*(r1**2))*np.exp(-alpha*(r2**2))*np.exp(r12/(2*(1+alpha*(r12))))
-
-def energyLocal(pos, alpha):
-    ''' E_L; equation 12.10 '''
-    print(len(pos))
-    print(len(pos[0]))
-    x1=pos[:,0:2]
-    x2=pos[:,3:5]
-    x12 = x2-x1
+    '''
+    Psi_T; Padé-Jastrow wave function
+    See also: http://www.physics.buffalo.edu/phy411-506/topic5/topic5-lec2.pdf    
+    '''
+    x1 = np.array(pos[:,0:3])-2
+    x2 = np.array(pos[:,3:6])-2
+    x12 = np.array(x1-x2)
     r1=np.linalg.norm(x1,axis=1)
     r2=np.linalg.norm(x2,axis=1)
     r12=np.linalg.norm(x12,axis=1)
-    print(x1)
-    print(x2)
-    return -4 + alpha/(1+alpha*r12) + alpha/((1+alpha*r12)**2) + alpha/((1+alpha*r12)**3) - alpha/(4*(1+alpha*r12)**4) + ((x12/r12)*(x1/r1-x2/r2))/(1+alpha*r12)
+    
+    return np.exp(-2*(r1**2))*np.exp(-2*(r2**2))*np.exp(r12/(2*(1+alpha*(r12))))
+
+def energyLocal(pos, alpha):
+    '''
+    Local energy of the Padé-Jastrow wave function 
+    See also: http://www.physics.buffalo.edu/phy411-506/topic5/topic5-lec2.pdf
+    '''
+    x1 = np.array(pos[:,0:3])-2
+    x2 = np.array(pos[:,3:6])-2
+    x12 = np.array(x1-x2)
+    r1=np.linalg.norm(x1,axis=1)
+    r2=np.linalg.norm(x2,axis=1)
+    r12=np.linalg.norm(x12,axis=1)
+
+    f=(1+alpha*r12)    
+    
+    n12 = (x12/r12[:,None])
+    n1 = x1/r1[:,None]
+    n2 = x2/r2[:,None]
+    d = np.einsum('ij,ij->i', n12 , (n1-n2))
+    d /= (f**2)
+    
+    
+    return -4 + alpha/f + alpha/(f**2) + alpha/(f**3) - alpha/(4*(f**4)) + d
 
 
 def trialDeriv(pos, alpha):    
@@ -47,10 +63,10 @@ def trialDeriv(pos, alpha):
 
 #Simulation parameters
 dim=6
-iterations = 100
-damping = 0.00005
-startAlpha = 3
-numTestPoints = 5000
+iterations = 3000
+damping = 5*10**(-8)
+startAlpha = 1.8
+numTestPoints = 30000
 domainSize = 4
 numberOfBoxes = 3
 
