@@ -39,7 +39,6 @@ def ringStep(pos):
 
 
 #Simulation parameters
-steps = 100
 iterations = 5
 numberOfBoxes = 5
 
