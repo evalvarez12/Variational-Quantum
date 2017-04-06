@@ -70,7 +70,7 @@ x=(np.array(range(steps))+1)*int(maxNumPoints/steps)
 #For each of the four integration methods
 for i in range(4):
     #Create a CSV-Logger for the results
-    CSV_FILE = open(RESULT_PATH+"/ringStep_it-"+str(iterations)+"_step-"+str(steps)+"_met-"+str(i)+".csv", 'w', newline='')  
+    CSV_FILE = open(RESULT_PATH+"/ringStep_it-"+str(iterations)+"_step-"+str(steps)+"_maxN-"+str(maxNumPoints)+"_met-"+str(i)+".csv", 'w', newline='')  
     CSV_FILE_WRITER = csv.writer(CSV_FILE)
     
     realTP=[]
@@ -124,9 +124,6 @@ for i in range(4):
         print(" > It took "+str(t)+"s")
         
         CSV_FILE.flush()
-        
-        
-        
     CSV_FILE.close()
 
 plt.plot(x, np.absolute(values[0]), '-o')
