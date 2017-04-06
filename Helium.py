@@ -22,8 +22,8 @@ def trialWaveFunc(pos, alpha):
     Psi_T; Padé-Jastrow wave function
     See also: http://www.physics.buffalo.edu/phy411-506/topic5/topic5-lec2.pdf    
     '''
-    x1 = np.array(pos[:,0:3])-1
-    x2 = np.array(pos[:,3:6])-1
+    x1 = np.array(pos[:,0:3])-1.5
+    x2 = np.array(pos[:,3:6])-1.5
     x12 = np.array(x1-x2)
     r1=np.linalg.norm(x1,axis=1)
     r2=np.linalg.norm(x2,axis=1)
@@ -36,8 +36,8 @@ def energyLocal(pos, alpha):
     Local energy of the Padé-Jastrow wave function 
     See also: http://www.physics.buffalo.edu/phy411-506/topic5/topic5-lec2.pdf
     '''
-    x1 = np.array(pos[:,0:3])-1
-    x2 = np.array(pos[:,3:6])-1
+    x1 = np.array(pos[:,0:3])-1.5
+    x2 = np.array(pos[:,3:6])-1.5
     x12 = x1-x2
     r1=np.linalg.norm(x1,axis=1)
     r2=np.linalg.norm(x2,axis=1)
@@ -59,8 +59,8 @@ def energyLocal(pos, alpha):
 
 def trialDeriv(pos, alpha):    
     ''' d(ln(Psi_T))/d alpha '''
-    x1 = np.array(pos[:,0:3])-1
-    x2 = np.array(pos[:,3:6])-1
+    x1 = np.array(pos[:,0:3])-1.5
+    x2 = np.array(pos[:,3:6])-1.5
     x12 = x1-x2
     #r1=np.linalg.norm(x1,axis=1)
     #r2=np.linalg.norm(x2,axis=1)
@@ -72,11 +72,11 @@ def trialDeriv(pos, alpha):
 
 #Simulation parameters
 dim=6
-iterations = 300
-damping = 0.001 #1*10**(-6)
-startAlpha = 2
+iterations = 50
+damping = 5*10**(-5)
+startAlpha = 0
 numTestPoints = 10**(6)
-domainSize = 2
+domainSize = 3
 numberOfBoxes = 3
 
 RESULT_PATH = "results/systems"
@@ -120,5 +120,5 @@ for i in range(len(pos)):
     CSV_FILE_WRITER.writerow([*tuple(pos[i]), wfden[i]])
 
 
-plt.plot(np.absolute(alphas))
-plt.plot(energy)
+plt.plot(np.absolute(alphas), energy, '.')
+#plt.plot()
