@@ -1,0 +1,60 @@
+
+\usepackage{color}
+\definecolor{gray}{rgb}{.5,.5,.5}
+\definecolor{lightgray}{rgb}{.25,.25,.25}
+
+%Graphics (PGF / TIKZ) **+**+**+**+**+**+**+**+**+**+**+**+**+**+
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\tikzset{
+	hatchhor/.style={pattern=horizontal lines,pattern color=#1},
+	hatchhor/.default=black
+}
+\tikzset{
+	hatchvert/.style={pattern=vertical lines,pattern color=#1},
+	hatchvert/.default=black
+}
+\tikzset{
+	hatchdiag/.style={pattern=north east lines,pattern color=#1},
+	hatchdiag/.default=black
+}
+\tikzset{
+	hatchdiag2/.style={pattern=north west lines,pattern color=#1},
+	hatchdiag2/.default=black
+}
+%also possible grid, crosshatch, dots, crosshatch dots, fivepointed stars, sixpointed stars
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+
+% Style to select only points from #1 to #2 (inclusive)
+\pgfplotsset{select coords between index/.style 2 args={
+		x filter/.code={
+			\ifnum\coordindex<#1\def\pgfmathresult{}\fi
+			\ifnum\coordindex>#2\def\pgfmathresult{}\fi
+		}
+	}
+}
+
+
+\newcommand{\vasymptote}[2][]{
+	\draw [color=gray,densely dashed,#1] ({rel axis cs:0,0} -| {axis cs:#2,0}) -- ({rel axis cs:0,1} -| {axis cs:#2,0});
+}
+
+\newcommand{\vertline}[2][]{
+	\draw [#1] ({rel axis cs:0,0} -| {axis cs:#2,0}) -- ({rel axis cs:0,1} -| {axis cs:#2,0});
+}
+
+
+
+%The very best color gradient!
+%Inspired by http://www.kennethmoreland.com/color-maps/
+%Stolen from http://tex.stackexchange.com/questions/133351/how-do-i-create-unadorned-color-bars-without-a-plot
+\pgfplotsset{
+	colormap={moreland}{
+		rgb255=(0,152,190) rgb255=(37,156,190) rgb255=(55,159,191) rgb255=(69,162,191) rgb255=(81,165,191) rgb255=(92,168,190) rgb255=(102,170,190) rgb255=(112,172,190) rgb255=(121,174,189) rgb255=(130,176,188) rgb255=(138,177,187) rgb255=(146,179,186) rgb255=(153,179,185) rgb255=(160,180,184) rgb255=(167,180,183) rgb255=(174,180,181) rgb255=(180,180,180) rgb255=(184,179,175) rgb255=(187,177,169) rgb255=(190,175,164) rgb255=(192,172,158) rgb255=(195,169,152) rgb255=(196,166,146) rgb255=(198,163,140) rgb255=(199,159,134) rgb255=(200,155,128) rgb255=(200,150,122) rgb255=(200,146,116) rgb255=(200,141,110) rgb255=(199,136,104) rgb255=(198,131,98) rgb255=(197,125,92) rgb255=(195,119,86)
+	}
+}
+
+
+%END Graphics **+**+**+**+**+**+**+**+**+**+**+**+**+**+**+**+**+
