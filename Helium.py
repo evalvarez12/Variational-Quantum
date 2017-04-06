@@ -22,52 +22,61 @@ def trialWaveFunc(pos, alpha):
     Psi_T; Padé-Jastrow wave function
     See also: http://www.physics.buffalo.edu/phy411-506/topic5/topic5-lec2.pdf    
     '''
-    x1 = np.array(pos[:,0:3])-2
-    x2 = np.array(pos[:,3:6])-2
+    x1 = np.array(pos[:,0:3])-1
+    x2 = np.array(pos[:,3:6])-1
     x12 = np.array(x1-x2)
     r1=np.linalg.norm(x1,axis=1)
     r2=np.linalg.norm(x2,axis=1)
     r12=np.linalg.norm(x12,axis=1)
     
-    return np.exp(-2*(r1**2))*np.exp(-2*(r2**2))*np.exp(r12/(2*(1+alpha*(r12))))
+    return np.exp(-2*(r1**2)-2*(r2**2)+r12/(2*(1+alpha*(r12))))
 
 def energyLocal(pos, alpha):
     '''
     Local energy of the Padé-Jastrow wave function 
     See also: http://www.physics.buffalo.edu/phy411-506/topic5/topic5-lec2.pdf
     '''
-    x1 = np.array(pos[:,0:3])-2
-    x2 = np.array(pos[:,3:6])-2
-    x12 = np.array(x1-x2)
+    x1 = np.array(pos[:,0:3])-1
+    x2 = np.array(pos[:,3:6])-1
+    x12 = x1-x2
     r1=np.linalg.norm(x1,axis=1)
     r2=np.linalg.norm(x2,axis=1)
     r12=np.linalg.norm(x12,axis=1)
 
     f=(1+alpha*r12)    
     
-    n12 = (x12/r12[:,None])
+    #n12 = (x12/r12[:,None])
     n1 = x1/r1[:,None]
     n2 = x2/r2[:,None]
-    d = np.einsum('ij,ij->i', n12 , (n1-n2))
-    d /= (f**2)
+    d = np.einsum('ij,ij->i', (n1-n2), (x1-x2))
+    d /= r12*(f**2)
     
-    
-    return -4 + alpha/f + alpha/(f**2) + alpha/(f**3) - alpha/(4*(f**4)) + d
+
+    return -4 + d - 1/(r12*(f**3)) - 1/(4*(f**4)) + 1/r12
+    #return -4 + alpha/f + alpha/(f**2) + alpha/(f**3) - 1/(4*(f**4)) + d
+
 
 
 def trialDeriv(pos, alpha):    
     ''' d(ln(Psi_T))/d alpha '''
-    r=np.linalg.norm(pos,axis=1)
-    return -r**2
+    x1 = np.array(pos[:,0:3])-1
+    x2 = np.array(pos[:,3:6])-1
+    x12 = x1-x2
+    #r1=np.linalg.norm(x1,axis=1)
+    #r2=np.linalg.norm(x2,axis=1)
+    r12=np.linalg.norm(x12,axis=1)
+
+    f=(1+alpha*r12)
+    return -(r12**2)/(2*(f**2))
     
 
 #Simulation parameters
 dim=6
-iterations = 3000
-damping = 5*10**(-8)
-startAlpha = 1.8
-numTestPoints = 30000
-domainSize = 4
+iterations = 300
+damping = 0.001 #1*10**(-6)
+startAlpha = 2
+numTestPoints = 10**(6)
+domainSize = 2
 numberOfBoxes = 3
 
 RESULT_PATH = "results/systems"
@@ -112,3 +121,4 @@ for i in range(len(pos)):
 
 
 plt.plot(np.absolute(alphas))
+plt.plot(energy)
