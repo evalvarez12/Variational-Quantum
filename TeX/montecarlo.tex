@@ -1,18 +1,18 @@
-\section{Making a Monte Carlo integrator}
+\section{Monte Carlo integration implementation}
 \label{ch:monte_app}
 
-First, we explored different methods in order to gain a better insight on how to create a good general integrator. We tested 4 methods, where each differs in how the points in the domain are chosen to evaluate the integral (compare to chapter~\ref{ch:monte}):
+First, we explored different methods in order to gain a better insight on how to create a good numerical integrator. We tested four methods, where each differs in how the points in the domain are chosen to evaluate the integral (compare to chapter~\ref{ch:monte}):
 \begin{enumerate}
-  \item Uniform Static - The entire domain is divided by a uniform mesh were each point is taken in a coordinate is the grid.
+  \item Uniform Static - The entire domain is divided by a uniform mesh, where each point is taken in a coordinate in a grid.
   \item Uniform Adaptive - The domain is divided uniformly in square boxes, and for each box a mesh grid is created
   specified by a density value which determines the total number of points inside that box. The density parameter
   is obtained by performing successive iterations, on which the density of each sub-box is set by the total value of the integral inside
   the box.
   \item Stratified Static - The entire domain is divided in a uniform mesh, where for each quadrant of the mesh
   a single point is chosen randomly inside.
-  \item Stratified Adaptive - A combination of both methods adaptive and stratified.
+  \item Stratified Adaptive - A combination of both methods, adaptive and stratified.
 \end{enumerate}
-\begin{figure*}
+\begin{figure*}[th]
   \begin{center}
     \includegraphics[scale=0.9]{graphs/BoxPlotter.pdf}
 	\caption{
@@ -22,7 +22,7 @@ First, we explored different methods in order to gain a better insight on how to
   \end{center}
 \end{figure*}
 
-To compare these methods we used a ring-shaped test function over which we evaluated the integrals. This two-dimensional ring, with an outer radius of 4 and an inner radius of 2, the value is 2, outside it is zero. The analytical integral over the whole domain is thus simply $ A=2\pi (4^2-2^2)$.  In figure~\ref{fig:BoxPlotter} a set of sampling point distributions for this test function and each method are shown. To compare the performance of these methods, each of them were executed at a different number of test points. The obtained results were compared with the analytical answer and over several repetitions the average error determined. These results are shown in fig. \ref{fig:MCerrs}, where 1,000 repetitions where used for each number of points. In the case of adaptive methods the entire integration domain was divided into 25 boxes.
+To compare these methods we used a ring-shaped test function over which we evaluated the integrals. This two-dimensional ring, with an outer radius of 4 and an inner radius of 2, has the value 2 and outside the value is zero. The analytical integral over the whole domain is thus simply $ A=2\pi (4^2-2^2)$.  In figure~\ref{fig:BoxPlotter} a set of sampling point distributions for this test function and each method are shown. To compare the performance of these methods, each of them were executed with a different number of test points. The obtained results were compared with the analytical answer and over several repetitions the average error determined. These results are shown in fig.~\ref{fig:MCerrs}, where 1,000 repetitions were used for each number of points. In the case of adaptive methods the entire integration domain was divided into 25 boxes.
 
 One can clearly see, that only certain number of points can be achieved with the uniform methods, since the points always need to fit in a grid. For the uniform static method no deviation can be seen. This is due to the fact, that this method is fully deterministic and thus all repetitions with the same parameters return the same result.
 As expected the most reliable results are obtained with the adaptive stratified method, which has also gives the smallest standard deviation from the error as seen in the error bars (with the exception of the uniform static method).
