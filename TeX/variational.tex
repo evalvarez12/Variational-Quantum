@@ -8,9 +8,16 @@ Now we will present the results obtained of using the Monte Carlo integration an
 method to find the ground state energy on each of the problems already established.
 
 \subsection{Harmonic Oscillator}
-Two simulations were performed with 50 iterations, a damping factor of $\gamma = 10^{-5}$, an initial value of $\alpha_i = 3~/~ 0.01$  and 1,000 test points over a domain with length 4, subdivided into 20 sub-domains for the adaptive grid. In the final iteration we obtained an  error in the energy of $E_{MC}-E_0 \simeq 1.63\cdot 10^{-9}$,
+Two simulations were performed with 50 iterations, a damping factor of $\gamma = 10^{-5}$,
+an initial value of $\alpha_i = 3~/~ 0.01$  and 1,000 test points over a domain with length 4,
+subdivided into 20 sub-domains for the adaptive grid. In the final iteration we obtained an
+error in the energy of $E_{MC}-E_0 \simeq 1.63\cdot 10^{-9}$,
 and a error in the parameter of $\alpha - \alpha_0 \simeq 7.6455\cdot 10^{-6}$. In figure \ref{fig:Ho_it}
-we show the values obtained for the energy and for $\alpha$ as a function of every iteration performed, for two different values of $\alpha_i$. We can see how  minimum values in both energy and $\alpha$ are reached with a small number of iterations, which shows that the methods used are efficient. In figure \ref{fig:Ho_rel} we can see how the energy behaves as a function on $\alpha$ where there is a clear minnum value at $0.5$ as expected.
+we show the values obtained for the energy and for $\alpha$ as a function of every iteration performed,
+for two different values of $\alpha_i$. We can see how  minimum values in both energy and $\alpha$ are
+reached with a small number of iterations, which shows that the methods used are efficient. In figure
+ \ref{fig:Ho_rel} we can see how the energy behaves as a function on $\alpha$ where there is a clear
+minimum value at $0.5$ as expected.
 \begin{figure}
 	\begin{center}
 		\includegraphics[scale=0.9]{graphs/ho-e-alpha-iterations.pdf}
@@ -34,18 +41,32 @@ we show the values obtained for the energy and for $\alpha$ as a function of eve
 
 
 \subsection{Hydrogen Atom}
- The convergence on this seems to be quite fast. Using the parameters $\gamma = 5\cdot 10^{-4}$, $\alpha_i = 3 \text{~/~}0.01$ with 5,000 test points over $7$ boxes, we need about 160 iterations to reach $\alpha-\alpha_0 \simeq 5 \cdot 10^{-10}$. That is, within 160 iterations we can estimate $\alpha$ up to ten digits and find the appropriate energy for it.
+Using the parameters
+$\gamma = 5\cdot 10^{-4}$, $\alpha_i = 3 \text{~/~}0.01$ with 5,000
+test points over $7$ boxes, about 160 iterations were needed to reach
+$err(\alpha) = \alpha-\alpha_{REF} \simeq 5 \cdot 10^{-10}$. That is, within 160
+iterations we can estimate $\alpha$ up to ten digits and find the appropriate energy for it.
 
 
 \subsection{Helium Atom}
 
-Similarly to the previous case, we solved it changing $\alpha$. Using two different starting values $\alpha_i$ we convergence to the same values for $\alpha$ and $E_{MC}$, see figure~\ref{fig:He_it}. The values we find for the energy after just 50 iterations are $E_{\alpha_i = 0.01} =  $ and $E_{\alpha_i = 0.5} =  $, which compare well with the optimum value achieved by this method of $-2.8781 \pm 0.0005$, the Hartree-Fock value of $-2.8617$, the DFT value of $-2.83$ and the exact value of $-2.9307$ (see \cite{JosBook}). %TODO
+Similarly to the previous case we,
+used two different starting values $\alpha_i$ we convergence to
+the same values for $\alpha$ and $E_{MC}$, see figure~\ref{fig:He_it}.
+The values found for the energy after just 50 iterations are
+$E_{\alpha_i = 0.01} =  $ and $E_{\alpha_i = 0.5} =  $, which
+compare well with the optimum value achieved by this method
+of $-2.8781 \pm 0.0005$, the Hartree-Fock value of $-2.8617$,
+the DFT value of $-2.83$ and the exact value of $-2.9307$ (see \cite{JosBook}). %TODO
 
 \begin{figure}
   \begin{center}
   \includegraphics[scale=1 ]{graphs/he-e-alpha-iterations.pdf}
   \caption{
-  	Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$. Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily true for the energy due to the integration not being exact. Nonetheless, a very accurate result can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $
+  	Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$.
+		 Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily
+		  true for the energy due to the integration not being exact. Nonetheless, a very accurate result
+			 can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $
   	%TODO: This was already mentioned in the text. I should only be in one place!
   	}
   \label{fig:He_it}
