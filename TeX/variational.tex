@@ -2,7 +2,7 @@
 % !TeX spellcheck = en_US
 % !TeX root = report1.tex
 
-\section{Variational}
+\section{Results}
 %Now we focus on using the integration to solve the problem established in the introduction.
 Now we will present the results obtained of using the Monte Carlo integration and the variational
 method to find the ground state energy on each of the problems already established.
@@ -45,14 +45,13 @@ Using the parameters
 $\gamma = 5\cdot 10^{-4}$, $\alpha_i = 3 \text{~/~}0.01$ with 5,000
 test points over $7$ boxes, about 160 iterations were needed to reach
 $err(\alpha) = \alpha-\alpha_{REF} \simeq 5 \cdot 10^{-10}$. That is, within 160
-iterations we can estimate $\alpha$ up to ten digits and find the appropriate energy for it.
+iterations we can estimate the value $\alpha=1$ up to ten digits and find the appropriate energy for it.
 
 
 \subsection{Helium Atom}
 
-Similarly to the previous case we,
-used two different starting values $\alpha_i$ we convergence to
-the same values for $\alpha$ and $E_{MC}$, see figure~\ref{fig:He_it}.
+Similarly to the previous case we calculated $E$ as a function of $\alpha$
+using two different starting values for $\alpha_i$, see figure~\ref{fig:He_it}.
 The values found for the energy after just 50 iterations are
 $E_{\alpha_i = 0.01} =  $ and $E_{\alpha_i = 0.5} =  $, which
 compare well with the optimum value achieved by this method
