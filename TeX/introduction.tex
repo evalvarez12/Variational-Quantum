@@ -6,8 +6,8 @@
 \section{Introduction}
 One of the greater problems when dealing with Quantum Mechanics is the lack for a analytical solutions for wave-functions
 in almost all cases, where the harmonic oscillator and Hydrogen atom are the most notable exceptions.
-Thus different number of numerical methods have been established in order to solve this type
-of problem. One of these is the Variational Mont\'e Carlo method, which combines Mont\'e Carlo integration and variational
+Thus a number of different numerical methods have been established in order to solve these types
+of problems. One of these is the Variational Mont\'e Carlo method, which combines Mont\'e Carlo integration and variational
 quantum mechanics in order to solve problems.
 
 
@@ -72,8 +72,9 @@ the described Mont\'e Carlo method.
 %which can either be solves analytically or numerically, depending on the form of the local energy.
 
 The goal is, to find the minimum value of the energy with respect to $\alpha$. The direct derivative $\frac{dE}{d\alpha}$ can unfortunately be misleading, since fluctuations in the energy values due to integration errors can be larger than the actual gradient. Thus Newton's method on the derivative is utilized to write
-$$\frac{dE}{d\alpha} = 2 \left( \left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right> \right) \text{~.}$$
-This method works because our the exact solution is within the family of trial functions, see \cite{JosBook}. %TODO
+$$\frac{dE}{d\alpha} = 2 \left( \left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right> \right) \text{~,}$$
+compare to \cite{JosBook}.
+%This method works because our the exact solution is within the family of trial functions, see . %TODO
 The new variational parameter can then recursively be adapted with $$\alpha_{\text{new}} = \alpha_{\text{old}} - \gamma \frac{dE}{d\alpha} \text{~} $$
 to find the minimum of the energy with respect to alpha.
 
