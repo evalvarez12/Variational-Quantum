@@ -14,15 +14,16 @@ subdivided into 20 sub-domains for the adaptive grid. In the final iteration we 
 error in the energy of $E_{MC}-E_0 \simeq 1.63\cdot 10^{-9}$,
 and a error in the parameter of $\alpha - \alpha_0 \simeq 7.6455\cdot 10^{-6}$. In figure \ref{fig:Ho_it}
 we show the values obtained for the energy and for $\alpha$ as a function of every iteration performed,
-for two different values of $\alpha_i$. We can see how  minimum values in both energy and $\alpha$ are
+om which the parameter $\alpha$ is changing according to \ref{eq:minimizer},
+for two different values of $\alpha_i$. We can see how  convergence values in both energy and $\alpha$ are
 reached with a small number of iterations, which shows that the methods used are efficient. In figure
  \ref{fig:Ho_rel} we can see how the energy behaves as a function on $\alpha$ where there is a clear
-minimum value at $0.5$ as expected.
+minimum value at $0.5$ where each of the exections of our program meet eachother.
 \begin{figure}
 	\begin{center}
 		\includegraphics[scale=0.9]{graphs/ho-e-alpha-iterations.pdf}
 		\caption{
-			Energy and alpha as a function of iteration number. %TODO
+			Energy and $\alpha$ obtained during every iteration for two different values $\alpha_i$.
 			%Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$. Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily true for the energy due to the integration not being exact. Nonetheless, a very accurate result can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $.
 			}
 		\label{fig:Ho_it}
@@ -32,7 +33,7 @@ minimum value at $0.5$ as expected.
 	\begin{center}
 		\includegraphics[scale=0.9]{graphs/ho-e-alpha.pdf}
 		\caption{
-			Energy plotted as a function of alpha. %TODO
+			Energy as a function of $\alpha$ for two initial values of $\alpha_i$.
 			%Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$. Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily true for the energy due to the integration not being exact. Nonetheless, a very accurate result can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $.
 		}
 		\label{fig:Ho_rel}
@@ -62,10 +63,11 @@ the DFT value of $-2.83$ and the exact value of $-2.9307$ (see \cite{JosBook}). 
   \begin{center}
   \includegraphics[scale=1 ]{graphs/he-e-alpha-iterations.pdf}
   \caption{
-  	Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$.
-		 Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily
-		  true for the energy due to the integration not being exact. Nonetheless, a very accurate result
-			 can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $
+	Value of energy and $\alpha$ for two different $\alpha_i$
+  	% Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$.
+		%  Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily
+		%   true for the energy due to the integration not being exact. Nonetheless, a very accurate result
+		% 	 can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $
   	%TODO: This was already mentioned in the text. I should only be in one place!
   	}
   \label{fig:He_it}
