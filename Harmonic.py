@@ -34,7 +34,7 @@ def trialDeriv(pos, alpha):
 #Simulation parameters
 iterations = 50
 damping = 1*10**(-5)
-startAlpha = 0.01
+startAlpha = 3
 numTestPoints = 1000
 domainSize = 4
 numberOfBoxes = 20
@@ -70,4 +70,7 @@ for i in range(iterations):
     CSV_FILE.flush()
 CSV_FILE.close()
 
-plt.plot(np.absolute(alphas))
+
+np.save("HO-2-alpha.npy", alphas)
+np.save("HO-2-energy.npy", energy)
+# plt.plot(np.absolute(alphas))

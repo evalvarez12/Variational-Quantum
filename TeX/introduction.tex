@@ -73,5 +73,9 @@ $Var(E_L) = \sqrt{<E_L^2> - <E_L>^2} = \sqrt{ \int \textbf{r}^2 E_L(\textit{r},\
 (\int \textbf{r} E_L(\textit{r},\alpha)d\textbf{r})^2 } $, %TODO!!!
 which can either be solves analytically or numerically, depending on the form of the local energy.
 
+In order to find the minimum value of the energy with respect to $\alpha$ we use Newton's method on the derivative $\frac{dE}{d\alpha} = 2 (\left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right>)$. This method works because our the exact solution is within the family of trial functions, see \cite{JosBook}. %TODO
+The new variational parameter can then be adapted as $$\alpha_{\text{new}} = \alpha_{\text{old}} - \gamma \frac{dE}{d\alpha} \text{~.} $$
+
+
 %TODO: Not sure if this is appropriate in a paper
 %This work is as follows, chapter 2 contains a theoretical description of the quantum problems we attempt to solve. In chapter 3 we explore through different numerical integration methods comparing each other in order to conclude which one is the best. Next in chapter 4, we describe our results and discuss them in the light of expectations. Finally, in chapter 5 we will draw conclusions and suggest options for further research.
