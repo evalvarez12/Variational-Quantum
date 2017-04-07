@@ -26,7 +26,7 @@ error in the energy of $err(E)=E_{MC}-E_{REF}\simeq 1.431\cdot 10^{-9}$ and a er
 	\begin{center}
 		\includegraphics[scale=0.9]{graphs/ho-e-alpha-iterations.pdf}
 		\caption{
-			Energy and $\alpha$ obtained during every iteration for two different values $\alpha_i$.
+			Results of the simulation of a one-dimensional harmonic oscillator. Energy and $\alpha$ for two different $\alpha_i$ are plotted against the number of iterations. For the parameters used for the simulation, please refer to the text.
 			%Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$. Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily true for the energy due to the integration not being exact. Nonetheless, a very accurate result can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $.
 			}
 		\label{fig:Ho_it}
@@ -36,7 +36,7 @@ error in the energy of $err(E)=E_{MC}-E_{REF}\simeq 1.431\cdot 10^{-9}$ and a er
 	\begin{center}
 		\includegraphics[scale=0.9]{graphs/ho-e-alpha.pdf}
 		\caption{
-			Energy as a function of $\alpha$ for two initial values of $\alpha_i$.
+			Results of the simulation of a one-dimensional harmonic oscillator. The obtained energy is plotted as a function of $\alpha$ for two initial values of $\alpha_i$. For the parameters used for the simulation, please refer to the text.
 			%Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$. Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily true for the energy due to the integration not being exact. Nonetheless, a very accurate result can be found: $E_{\alpha_0 = 0.5} =  $ and $E_{\alpha_0 = 0.5} =  $.
 		}
 		\label{fig:Ho_rel}
@@ -47,10 +47,9 @@ error in the energy of $err(E)=E_{MC}-E_{REF}\simeq 1.431\cdot 10^{-9}$ and a er
 \subsection{Hydrogen Atom}
 Using the parameters
 $\gamma = 5\cdot 10^{-4}$, $\alpha_i = 3 $ with 5,000
-test points over $7$ boxes, about 160 iterations were needed to reach convergence
-values of $\alpha \approx 1$ and $E_{MC} \approx - 1/2$, where the error obtained is
-$err(\alpha) = \alpha-\alpha_{REF} \simeq 5 \cdot 10^{-10}$. That is, within 160
-iterations we can estimate the value $\alpha=1$ up to ten digits and find the appropriate energy for it.
+test points over $7$ boxes, again about 40 iterations were needed to reach convergence
+values of $\alpha \approx 1$ and $E_{MC} \approx - 1/2$, where the error obtained after 160 iterations is
+$err(\alpha) = \alpha-\alpha_{0} \simeq 5 \cdot 10^{-10}$. %That is, within 160 iterations we can estimate the value $\alpha=1$ up to ten digits and find the appropriate energy for it.
 
 
 \subsection{Helium Atom}
@@ -65,7 +64,7 @@ the DFT value of $-2.83$ and the exact value of $-2.9307$ (see \cite{JosBook}).
   \begin{center}
   \includegraphics[scale=1 ]{graphs/he-e-alpha-iterations.pdf}
   \caption{
-	Value of energy and $\alpha$ for two different $\alpha_i$
+	Results of the simulation of the Helium atom. Energy and $\alpha$ for two different $\alpha_i$ are plotted against the number of iterations. For the parameters used for the simulation, please refer to the text.
   	% Calculated $E$ as a function of $\alpha$ using two different starting values for$\alpha_0$.
 		%  Notice that $\alpha$ converges monotonically (increasing or decreasing) while this is not necessarily
 		%   true for the energy due to the integration not being exact. Nonetheless, a very accurate result
