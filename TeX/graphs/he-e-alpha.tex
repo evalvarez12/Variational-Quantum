@@ -11,10 +11,10 @@
 \begin{document}
 	\begin{tikzpicture}
 		\begin{axis}[
-			xmin=0, xmax=0.52,
+			xmin=0, xmax=0.51,
 			%ymin=-0.01, ymax=0.36,
 			xlabel={Variational Parameter $\alpha$}, 
-			ytick={0, 0.05, ..., 0.7}, yticklabels={0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
+			xtick={0, 0.05, ..., 0.7}, xticklabels={0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5},
 			ylabel={Energy $E$}, %legend pos=outer north east
 			%unit vector ratio=1 1,
 			width=14cm, height=7cm,
@@ -27,11 +27,12 @@
 			\addplot+[
 				mark=x, mark size=1.7,
 			] table[col sep=comma, x expr={\thisrowno{2}}, y expr={\thisrowno{1}}] {/media/Data/Uni-Owncloud/Uni-Public-Normal-Stuff/Sonstiges/Computational Physics/Projects/Project2/Variational/TeX/graphs/data/helium-log_it-50_damp-3e-05_nTP-1000000_-sA0.5.csv};
-			\addlegendentry{Start-alpha $\alpha=0.5$}
+			\addlegendentry{$\alpha_i=0.5$}
+			
 			\addplot+[
 			mark=+, mark size=1.7,
 			] table[col sep=comma, x expr={\thisrowno{2}}, y expr={\thisrowno{1}}] {/media/Data/Uni-Owncloud/Uni-Public-Normal-Stuff/Sonstiges/Computational Physics/Projects/Project2/Variational/TeX/graphs/data/helium-log_it-50_damp-3e-05_nTP-1000000_-sA0.01.csv};
-			\addlegendentry{Start-alpha $\alpha=0.01$}
+			\addlegendentry{$\alpha_i=0.01$}
 			
 			
 		\end{axis}

@@ -73,8 +73,8 @@ def trialDeriv(pos, alpha):
 #Simulation parameters
 dim=6
 iterations = 50
-damping = 3*10**(-5)
-startAlpha = 0.5
+damping = 3*10**(-10)
+startAlpha = 0.049
 numTestPoints = 10**(6)
 domainSize = 3
 numberOfBoxes = 3
@@ -98,6 +98,8 @@ sim = VQS.VariationalQuantumSimulator(dim=dim, numTestPoints=numTestPoints, doma
 
 energy = []
 alphas = []
+#This for-loop could be replace with a while-loop, conditioned on some
+#stability-condition
 for i in range(iterations):
     print("𝛼: "+ str( sim.getAlpha()))
     alphas += [sim.getAlpha()]
