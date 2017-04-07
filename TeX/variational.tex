@@ -25,7 +25,7 @@ Notice that, based on the local energy we can already determine that $\alpha = \
 We apply the stratified adaptive integration scheme as defined in section~\ref{ch:monte_app} and use Newton's method on the derivative $\frac{dE}{d\alpha} = 2 (\left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right>)$. This method works because our the exact solution is within the family of trial functions, see \cite{JosBook}. %TODO
 The new variational parameter can then be adapted as $$\alpha_{\text{new}} = \alpha_{\text{old}} - \gamma \frac{dE}{d\alpha} \text{~.} $$
 
-Two simulations for the one-dimensional harmonic oscillator were performed with 50 iterations, a damping factor of $\gamma = 10^{-5}$, an initial value of $\alpha_i = 3~/~ 0.01$ for alpha and 1,000 test points over a domain with length 4, subdivided into 20 sub-domains for the adaptive grid. With this, we obtained an energy of $E_{MC}-E_0 \simeq 1.63\cdot 10^{-9}$ at $\alpha - \alpha_0 \simeq 7.6455\cdot 10^{-6}$, compare to figure~\ref{fig:Ho_it} and \ref{fig:Ho_rel}.
+Two simulations for the one-dimensional harmonic oscillator were performed with 50 iterations, a damping factor of $\gamma = 10^{-5}$, an initial value of $\alpha_i = 3~/~ 0.01$ for alpha and 1,000 test points over a domain with length 4, subdivided into 20 sub-domains for the adaptive grid. With this, we obtained an energy of $E_{MC}-E_0 \simeq 1.63\cdot 10^{-9}$ at $\alpha - \alpha_0 \simeq 7.6455\cdot 10^{-6}$, compare to figure~\ref{fig:Ho_it} and \ref{fig:Ho_rel}. %TODO: Are these numbers correct? Where were they taken from? What is the difference for the two alpha_i's?
 
 \begin{figure}[th]
 	\begin{center}
