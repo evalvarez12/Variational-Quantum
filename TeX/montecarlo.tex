@@ -16,7 +16,8 @@ First, we explored different methods in order to gain a better insight on how to
   \begin{center}
     \includegraphics[scale=0.9]{graphs/BoxPlotter.pdf}
 	\caption{
-	  	Illustrative examples of (from left to right) a uniform static, uniform adaptive, stratified static and stratified adaptive integration schemes. The lines create boxes within which an internal grid is applied in the case of static integration schemes. Notice that in all cases the number of points is the same, which in the case of adaptive static causes us to end with some points which do not fit in a grid. To accommodate for this we distributed them randomly within their respective box.
+	  	Illustrative examples of (from left to right) a uniform static, uniform adaptive, stratified static and stratified adaptive integration schemes. The gray lines indicate the sub-domains, which are used for the adaptive schemes. Notice, that in the adaptive cases a lower number of atoms may be used, in order to accommodate for the even distribution. %Notice that in all cases the number of points is the same, which in the case of adaptive static causes us to end with some points which do not fit in a grid. To accommodate for this we distributed them randomly within their respective box.
+	  	The integrated function is a two-dimensional ring (see text).
   	}
 	\label{fig:BoxPlotter}
   \end{center}
@@ -31,7 +32,9 @@ Additionally it is important to note how the error of the uniform static method,
   \begin{center}
   \includegraphics[scale=0.9]{graphs/integration_test_ring.pdf}
   %\includegraphics[scale=1 ]{graphs/integration_test_ring_rand.pdf}
-  \caption{Performance comparison of different numeric integration methods. The absolute value of the difference between the numerically calculated result and the analytical answer plotted against the number of integration points used. The used function is a two-dimensional ring (see text).}
+  \caption{
+  	Performance comparison of different numeric integration methods. The absolute value of the difference between the numerically calculated result and the analytical answer plotted against the actual number of integration points used. The integrated function is a two-dimensional ring (see text).
+  	}
   \label{fig:MCerrs}
   \end{center}
 \end{figure*}
