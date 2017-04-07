@@ -75,7 +75,11 @@ The goal is, to find the minimum value of the energy with respect to $\alpha$. T
 $$\frac{dE}{d\alpha} = 2 \left( \left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right> \right) \text{~,}$$
 compare to \cite{JosBook}.
 %This method works because our the exact solution is within the family of trial functions, see . %TODO
-The new variational parameter can then recursively be adapted with $$\alpha_{\text{new}} = \alpha_{\text{old}} - \gamma \frac{dE}{d\alpha} \text{~} $$
+The new variational parameter can then recursively be adapted with
+\begin{align}
+	\label{eq:minimizer}
+	\alpha_{\text{new}} = \alpha_{\text{old}} - \gamma \frac{dE}{d\alpha} \text{~}
+\end{align}
 to find the minimum of the energy with respect to alpha.
 
 
