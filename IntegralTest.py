@@ -67,7 +67,7 @@ IMAGE_PATH = RESULT_PATH+"/images"
 values = np.zeros([4,steps])
 errors = np.zeros([4,steps])
 rx = np.zeros([4,steps])
-x=(np.array(range(steps)))*int(((maxNumPoints-minNumPoints)/steps)+minNumPoints)
+x=((np.array(range(steps)))*int(((maxNumPoints-minNumPoints)/steps)))+minNumPoints
 
 
 #For each of the four integration methods
