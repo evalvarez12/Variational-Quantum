@@ -4,14 +4,8 @@
 
 
 \section{Conclusion}
-Here we conclude how awesome we all are.
+We investigated four different integration schemes and found that although using stochastically chosen points does not \textit{necessarily} give better results, the relative error decreases monotonically as a function of integration points. This property is very valuable when trying to minimize the error in your calculations. Furthermore, we found that adaptively changing the probability distribution of data points gives yields better results over taking treating all space equal. The combination of both, the stratified adaptive method seems to dominate in its usefulness. \\
 
+Furthermore we found that we can easily calculate the ground state energy with a relative error in the order of $10^{-9}$ using trial functions, in the case of the harmonic oscillator and the hydrogen atom. For the helium atom we found a relative error of <INSERT OUR VALUE DIVIDED BY -2.9307> which is similar to that of other methods such as Hertree-Fock and DFT calculations. Part of the reason that we are this much off is because the actual eigenfunction is not within our family of trial functions. Unfortunately this eigenfunction is not known and so we cannot purposefully propose a family of trial functions which contains it. Nonetheless, our results are in line with different methods and so we may conclude that our method succeeds, especially since it does not require a lot of computing power. \\
 
-
-
-
-
-
-
-
-
+For future research it will be interesting to investigate possible improvements to the stratified adaptive method. For example, we now used boxes to adapt to our probability distribution, but perhaps other geometries are more efficient (concentric rings when $\Psi_T = \Psi_T(r)$, or triangles akin to finite element methods). It is also interesting to investigate other Hamiltonians, including those whose eigenfunctions are not known analytically.
