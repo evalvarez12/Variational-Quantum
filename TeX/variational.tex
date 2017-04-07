@@ -20,13 +20,10 @@ From this we can derive tha local energy
   \begin{align*}
     E_L = \alpha + x^2(\frac{1}{2} - 2\alpha^2).
   \end{align*}
-Where that based on the local energy we can already determine that
-$\alpha = \frac{1}{2}$ gives us the ground state ($E_L = E_0 = \frac{1}{2}$),
-because in that case the variance of the local energy is equal to zero.
-It is nonetheless a good test for our algorithm to see if we can find the expected value of $E_0 = \frac{1}{2}$
-using Monte Carlo integration.
-
-  [insert here results]
+ 	
+  Notice that based on the local energy we can already determine that $\alpha = \frac{1}{2}$ gives us the ground state ($E_L = E_0 = \frac{1}{2}$), because in that case the variance of the local energy is equal to zero. It is nonetheless a good test for our algorithm to see if we can find the expected value of $E_0 = \frac{1}{2}$ using Monte Carlo integration. //
+  
+We apply the stratified adaptive integration scheme as defined in section 3 and use Newton's method on the derivative $\frac{dE}{d\alpha} = 2 (<E_L \frac{d \ln \Psi_T}{d \alpha}> - E<\frac{d \ln \Psi_T}{d \alpha}>)$. This method works because our the exact solution is within the family of trial functions, see [reference to book]. In 100 steps we reached an energy of $E_{MC} = 0.50000000163$ at $\alpha = 0.500001076455$.  See [awesome graph that Ren\'e will give us] where we show the value of the energy as a function of iteration number and as a function of $\alpha$. 
 
 \subsection{Hydrogen Atom}
 We will now consider the Hydrogen atom, where the Hamiltonian is
