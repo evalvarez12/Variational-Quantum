@@ -5,14 +5,13 @@
 
 \section{Introduction}
 One of the greater problems when dealing with Quantum Mechanics is the lack for a analytical solution
-in almost all cases, being the harmonic oscillator and Hydrogen atom the most notable exepctions.
+in almost all cases, being the harmonic oscillator and Hydrogen atom the most notable exceptions.
 And thus different number of numerical methods have been established in order to solve a great number
-of problems. Variational Monte Carlo method is a method which combies monte carlo integration and variational
+of problems. Variational Monte Carlo method is a method which combines Monte Carlo integration and variational
 quantum mechanics in order to solve problems.
 
 
-\subsection{Monte Carlo Integration}
-Monte Carlo simulation have long been a value tool to solve integration problems, among others.
+\subsection{Monte Carlo Integration: Random Sampling}
 While essentially done through means of computers, there is an $18^{th}$ century precursor to
 his which nicely illustrates the idea of Monte Carlo simulation.
 In 1733, Georges-Louis Leclerc
@@ -20,65 +19,71 @@ de Buffon had a wooden floor made up parallel beams; thus creating a plane with 
 If he were to drop down needles on the floor, he wondered what the probability would be of
 any needle crossing one of the parallel lines \cite{Buffon}. Since this is dependent on the
 angle the needle makes with the lines, it comes to no surprise there this is a factor of pi
-in the probability. While his intentions were not to find the value of pi, this experiment
+in the probability.
+While his intentions were not to find the value of pi, this experiment
 was later done to indeed find the value of pi, in 1901 by Mario Lazzarini where after 3408
 tosses he found the value of pi up to 7 digits. \cite{Lazzarini}.
+
+
 As of the 1930s the method started to gain more popularity, especially with the advent of the computer.
 It comes down to using a stochastic method to determine a non-stochastic value. For example, integrals
 with no known analytical solution can be approximated best by using a random sample of points, rather than
 a periodic or otherwise predetermined set of points.
-
  A cosine wave would be poorly integrated by taking points
-only where the phase is zero. In this case we are aware of the poor approximation, but with more difficult
-integrals we cannot always know this in advance, and so a random sample will provide more accurate results.
-In this paper we will attempt to find the ground state (!!) energy (!! just this or also the wave function?)
-of a helium atom. Since this involves integrals over the product of wave functions with a Hamiltonian, we will
-use Monte Carlo simulation to approximate our solution.
+only where the phase is zero. When dealing with any integral its impossble to always know this in advance,
+ and so a random sample will provide more accurate results.
+In this work we explore this idea by comparing different integration methods and observing how taking a great
+amount of points in a regular grid is not suficcient, and random sampling becomes a neccesity to obtain accurate results.
 
-\subsection{Variational Quantum Mechanics}
-
-By finding the ground state energy using integrals, we have resorted to the variational method for quantum
-mechanics. In this method we look at the Hilbert space of a Hamiltonian which contains all the possible states
+\subsection{Variational Quantum Mechanics: Integrating over the space}
+The variational method consists at looking at the Hilbert space of a Hamiltonian which contains all the possible states
 a wave function can have in accordance to that Hamiltonian. We then restrict ourselves to a subset of this space,
 and try to optimize our solution; for example by finding the ground state energy. The restriction we take is that
 we use so-called trial wave functions, which are wave functions of a predetermined format with some unknown parameters,
 and we try to optimize the solution in this parameter space. It turns out that \textit{the} ground state wave function
 will always yield the lowest ground state energy. So when comparing two trial wave functions, the one with the lowest
 energy will be closer to the \textit{actual} ground state wave function. In this way we can approximate the ground state
-(!!) wave function (!! or just the energy?). \cite{AdvStatMech}
+energy. \cite{AdvStatMech}
 
 
-Our goal is to find the ground state energy of a helium atom, using the variational Monte Carlo method. To this end we will
+Our goal is to find the ground state energy of a quantum system. To this end we will
 use trial wave functions $\psi_T(\textbf{r},\alpha)$, which is dependent on position $\textbf{r}$ and some parameter $\alpha$.
 Notice that it is not dependent on time; we are merely interested in the ground state energy and that does not evolve over time.
-In order to find the expectation value of the ground state energy we can use equation \ref{eq_groundstate}:
+In order to find the expectation value of the ground state energy we use the equation:
 \begin{equation}\label{eq_groundstate}
 E(\alpha) = \frac{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)H\psi_T(\textbf{r},\alpha)}{\int d\textbf{r}
- \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)}
+ \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)},
 \end{equation}
-
 Here $H$ is the Hamiltonian and $E(\alpha) \geq E_0$ is the approximation of the ground state energy which is always higher
 than or equal to the actual ground state energy $E_0$.  We will also define the
-\textit{local energy} $E_L = \frac{H\psi_T(\textbf{r},\alpha)}{\psi_T(\textbf{r},\alpha)}$ which is a flat function in case
+\textit{local energy}
+\begin{align}
+E_L = \frac{H\psi_T(\textbf{r},\alpha)}{\psi_T(\textbf{r},\alpha)},
+\end{align}
+ which is a flat function in case
 the $\psi_T(\textbf{r},\alpha) = \psi_0(\textbf{r})$. By evaluating the variance of $E_L$, we can approximate how far from
 the ground state energy we are. If the variance is equal to zero we have found an exact solution. Meanwhile we can make use
 this local energy as well, by simplifying equation \ref{eq_groundstate} to equation \ref{eq_groundstate2}.
 \begin{equation}\label{eq_groundstate2}
 E(\alpha) = \frac{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)E_L(\textbf{r},\alpha)}{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)}
 \end{equation}
+which is easier to work with due to the lack of a Hamiltonian \cite{JosBook}. These integrals are then evaluated using
+Monte Carlo simulation.
 
-which is easier to work with due to the lack of a Hamiltonian. [REFERENCE TO BOOK] These integrals are then evaluated using
-Monte Carlo simulation. \\
 
 In order to make the best use of finite integration steps, we will sample not \textit{entirely} at random, but rather by
 iteratively in such a way that we place our finite sample points there where the wave function is non-zero. This is called
-an adaptive method, and we will show that this yields better results quicker than using an entirely random sample.
-For further details see chapter 3. In order to calculate the variance of the local energy, we take
+an adaptive method, and we will show that this yields better results quicker than using an entirely random sample, as seen in the next chapter.
+In order to calculate the variance of the local energy, we take
 $Var(E_L) = \sqrt{<E_L^2> - <E_L>^2} = \sqrt{ \int \textbf{r}^2 E_L(\textit{r},\alpha) d\textbf{r} -
 (\int \textbf{r} E_L(\textit{r},\alpha)d\textbf{r})^2 } $,
 which can either be solves analytically or numerically, depending on the form of the local energy.
 
 
-We will first introduce the reader to all the necessary equations in chapter 2, followed by a description of the
-implementation and some preliminary results in chapter 3. We then describe our results and discuss this in the light
-of expectations, in chapter 4. Finally, in chapter 5 we will draw conclusions and suggest options for further research.
+This work is as follows, chapter 2 contains a theoretical description of the quantum problems
+we attempt to solve.
+In chapter 2 we explore through different numerical integration methods comparing each other in order to
+conclude which one is the best.
+Next in chapter 3, we describe our results and discuss them in the light
+of expectations.
+Finally, in chapter 5 we will draw conclusions and suggest options for further research.
