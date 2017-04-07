@@ -21,26 +21,26 @@
 	    	] table[
 		    	col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}}
 		    ] {/media/Data/Uni-Owncloud/Uni-Public-Normal-Stuff/Sonstiges/Computational Physics/Projects/Project2/Variational/TeX/graphs/data/helium-log_it-50_damp-3e-05_nTP-1000000_-sA0.5.csv};
-	    	\addlegendentry{Energy with $\alpha=0.5$}
+	    	\addlegendentry{Energy ($\alpha_i=0.5$)}
 	    	
 	    	\addplot[
 		    	green, mark=*, mark color=green, mark size=1,
 	    	] table[
 	    	col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}}
 	    	] {/media/Data/Uni-Owncloud/Uni-Public-Normal-Stuff/Sonstiges/Computational Physics/Projects/Project2/Variational/TeX/graphs/data/helium-log_it-50_damp-3e-05_nTP-1000000_-sA0.01.csv};
-	    	\addlegendentry{Energy with $\alpha=0.01$}
-	    	
-	    	\addplot[
-	    	orange, domain=-1:0, 
-	    	mark=o, mark size=1.7,
-	    	] {-2.7};
-	    	\addlegendentry{Alpha with $\alpha=0.01$}
+	    	\addlegendentry{Energy ($\alpha_i=0.01$)}
 	    	
 	    	\addplot[
 	    	red, domain=-1:0, 
 	    	mark=+, mark size=1.7,
 	    	] {-2.7};
-	    	\addlegendentry{Alpha with $\alpha=0.5$}
+	    	\addlegendentry{Alpha ($\alpha_i=0.5$)}
+	    	
+	    	\addplot[
+	    	orange, domain=-1:0, 
+	    	mark=o, mark size=1.7,
+	    	] {-2.7};
+	    	\addlegendentry{Alpha ($\alpha_i=0.01$)}
 	    	
     	\end{axis}
     	\begin{axis}[

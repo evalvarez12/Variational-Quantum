@@ -34,7 +34,7 @@ def trialDeriv(pos, alpha):
 #Simulation parameters
 iterations = 50
 damping = 1*10**(-5)
-startAlpha = 3
+startAlpha = 0.01
 numTestPoints = 1000
 domainSize = 4
 numberOfBoxes = 20
@@ -42,6 +42,11 @@ numberOfBoxes = 20
 RESULT_PATH = "results/systems/"
 IMAGE_PATH = RESULT_PATH+"/images"
 
+
+#Create a CSV-Logger for the results
+CSV_FILE = open(RESULT_PATH+"/harmonic1D-log_it-"+str(iterations)+"_damp-"+str(damping)+"_nTP-"+str(numTestPoints)+"_-sA"+str(startAlpha)+".csv", 'w', newline='')
+dic = ['iterations', 'energy', 'alpha', 'corr', 'corrA']
+CSV_FILE_WRITER = csv.DictWriter(CSV_FILE, dic)
 
 
 sim = VQS.VariationalQuantumSimulator(dim=3, numTestPoints=numTestPoints, domainSize=domainSize,
@@ -61,5 +66,8 @@ for i in range(iterations):
     print("E: "+ str( sim.getEnergy()))
     print("dE/d𝛼: "+ str( sim.getCorrection()))
     print("𝛾 dE/d𝛼: "+ str( sim.getAlphaCorrection()))
+    CSV_FILE_WRITER.writerow({'iterations' : i, 'energy' : energy[i], 'alpha' : alphas[i], 'corr' : sim.getCorrection(), 'corrA' : sim.getCorrection()})
+    CSV_FILE.flush()
+CSV_FILE.close()
 
 plt.plot(np.absolute(alphas))
