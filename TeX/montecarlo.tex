@@ -4,7 +4,7 @@
 First, we explored different methods
 in order to gain a better insight on how to create a better general integrator. We tested 4 methods, where each differs in how
 the points in the domain are chosen to evaluate the integral.
-The integration schemes \cite{MCmethods} used are:
+The integration schemes \cite{MCmethods} used are, see figure \ref{BoxPlotter}:
 \begin{enumerate}
   \item Uniform Static - The entire domain is divided by a uniform mesh were each point is taken in a coordinate is the grid.
   \item Uniform Adaptive - The domain is divided uniformly in square boxes, and for each box a mesh grid is created
@@ -16,14 +16,23 @@ The integration schemes \cite{MCmethods} used are:
   \item Stratified Adaptive - Basically a combination of both methods adaptive and stratified.
 \end{enumerate}
 
+
+\begin{figure*}[ht]
+  \begin{center}
+  \includegraphics[scale=1 ]{graphs/BoxPlotter.pdf}\label{BoxPlotter}
+  \caption{Illustrative examples of (from left to right) a uniform static, uniform adaptaive, stratified static and stratified adaptive integration schemes. The lines create boxes within which an internal grid is applied in the case of static integration schemes. Notice that in all cases the number of points is the same, which in the case of adaptive static causes us to end with some points which do not fit in a grid. To accommodate for this we distributed them randomly within their respective box. }
+  \label{fig:int}
+  \end{center}
+\end{figure*}
+
 To compare each method we used a test function on which we evaluated the integrals.
-This test function consisted on a donut shaped with value constant value in a 2-dimensional domain, from which
+This test function consisted of a ring with constant value in a 2-dimensional domain, from which
 we can know the exact value of the integral easily. The results
 of the error obtained for the different methods as a function of the number of points used is shown in fig. \ref{mc_errs},
  where 500 repetitions where used for each number of points and in the case of adaptive methods the entire integration
  domain was divided into 25 boxes. As
 expected the best method is the adaptive stratified which has also gives the smallest standard deviation from the error as seen in the error bars.
-Additionally is important to distinguish the steps in the error of the uniform static
+Additionally it is important to distinguish the steps in the error of the uniform static
 method which are the systematic error introduced by the regular mesh. This shows the entire point of doing Monte Carlo integration!
 \begin{figure*}[ht]
   \begin{center}

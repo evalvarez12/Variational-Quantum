@@ -8,7 +8,7 @@
  hydrogen atom and helium atom.
 
 \subsection{Harmonic Oscillator}
-  For the harmonic oscillator the trial wave function is
+  For the harmonic oscillator the trial wave function we choose is
   \begin{align}
     \Psi_T = e^{-\alpha x^2}
   \end{align}
@@ -17,3 +17,50 @@
   \begin{align}
     \hat{H} = \frac{-1}{2}\frac{\partial^2}{ \partial x^2} + \frac{1}{2} x^2
   \end{align}
+  
+  Then the local energy would then be  
+  \begin{align}
+    E_0 = \alpha + x^2(\frac{1}{2} - 2\alpha^2)
+  \end{align}  
+ 	
+  Notice that based on the local energy we can already determine that $\alpha = \frac{1}{2}$ gives us the ground state ($E_L = E_0 = \frac{1}{2}$), because in that case the variance of the local energy is equal to zero. It is nonetheless a good test for our algorithm to see if we can find the expected value of $E_0 = \frac{1}{2}$ using Monte Carlo integration. 
+  
+  [insert here results]
+  
+\subsection{Hydrogen Atom}
+We will now consider the Hydrogen atom, where will we use the trial function 
+
+  \begin{align}
+    \Psi_T = e^{-\alpha r}
+  \end{align}
+
+on the following Hamiltonian:
+  
+  \begin{align}
+    \hat{H} = \frac{-1}{2}\nabla^2 - \frac{1}{r}
+  \end{align}
+  
+This leads the a local energy of
+
+  \begin{align}
+    E_L(r) = - \frac{1}{r} - \frac{1}{2}\alpha(\alpha - \frac{2}{r})
+  \end{align}
+
+\subsection{Hydrogen Atom}
+Finally we consider the Hydrogen atom, where will we use the trial function 
+
+  \begin{align}
+    \Psi_T (\textbf{r}_1,\textbf{r}_2) = e^{2r_1}e^{2r_2}e^{\frac{r_{12}}{2(1+\alpha r_{12}}} 
+  \end{align}
+
+where $r_{12} = |\textbf{r}_1 - \textbf{r}_2 |$. This trial function is applied to the following Hamiltonian:
+  
+  \begin{align}
+    \hat{H} = -\frac{1}{2}(\nabla_{r_1}^2 + \nabla_{r_3}^2 + 2\nabla_{r_1}\cdot \nabla_{r_2}) - \frac{1}{r}
+  \end{align}
+  
+This leads a 'beautiful' equation for the local energy:
+
+  \begin{align}
+    E_L(\textbf{r}_1,\textbf{r}_2) = -4  + (\hat{\textbf{r}}_1 - \hat{\textbf{r}}_2) \cdot (\textbf{r}_1 - \textbf{r}_2) \frac{1}{r_{12}(1+\alpha r_{12})^2} -  \frac{1}{r_{12}(1+\alpha r_{12})^3} - \frac{1}{r_{12}(4(1+\alpha r_{12}))^4} + \frac{1}{r_{1,2}}   \end{align}
+  

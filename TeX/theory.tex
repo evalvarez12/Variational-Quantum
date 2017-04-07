@@ -1,8 +1,3 @@
-% !TeX encoding = UTF-8
-% !TeX spellcheck = en_US
-% !TeX root = report1.tex
-
-
 \section{Theory}
 
 Our goal is to find the ground state energy of a helium atom, using the variational Monte Carlo method. To this end we will use trial wave functions $\psi_T(\textbf{r},\alpha)$, which is dependent on position $\textbf{r}$ and some parameter $\alpha$. Notice that it is not dependent on time; we are merely interested in the ground state energy and that does not evolve over time. In order to find the expectation value of the ground state energy we can use equation \ref{eq_groundstate}: 
@@ -17,6 +12,6 @@ Here $H$ is the Hamiltonian and $E(\alpha) \geq E_0$ is the approximation of the
 E(\alpha) = \frac{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)E_L(\textbf{r},\alpha)}{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)}
 \end{equation}
 
-which is easier to work with due to the lack of a Hamiltonian. \\
+which is easier to work with due to the lack of a Hamiltonian. [REFERENCE TO BOOK] These integrals are then evaluated using Monte Carlo simulation. \\
 
-In order to make the best use of finite integration steps, we will sample not \textit{entirely} at random, but rather by iteratively in such a way that we place our finite sample points there where the wave function is non-zero. To this end we start with an entirely random sample and we calculate the integral using the Monte Carlo method, keeping track of the contribution in a small volume. Volumes where the contribution is high will get more sample points in the next iteration, and volumes where the contribution is low will get less sample points. In such a way we adaptively optimize the distribution of data points. Notice that within a volume the data points are still random. We will investigate less effective methods as well, to illustrate the use of this adaptive method. 
+In order to make the best use of finite integration steps, we will sample not \textit{entirely} at random, but rather by iteratively in such a way that we place our finite sample points there where the wave function is non-zero. This is called an adaptive method, and we will show that this yields better results quicker than using an entirely random sample. For further details see chapter 3. In order to calculate the variance of the local energy, we take $Var(E_L) = \sqrt{<E_L^2> - <E_L>^2} = \sqrt{ \int \textbf{r}^2 E_L(\textit{r},\alpha) d\textbf{r} - (\int \textbf{r} E_L(\textit{r},\alpha)d\textbf{r})^2 } $, which can either be solves analytically or numerically, depending on the form of the local energy. 
