@@ -3,29 +3,30 @@
 % !TeX root = report1.tex
 
 \section{Variational}
- Now we focus on using the integration to solve the problem established in the introduction.
- Using the Monte Carlo integration we focused on three different problems, the harmonic oscillator,
- hydrogen atom and helium atom.
+Now we focus on using the integration to solve the problem established in the introduction.
+Using the Monte Carlo integration we focused on three different problems, the one-dimensional harmonic oscillator, hydrogen atom and helium atom.
 
 \subsection{Harmonic Oscillator}
 The Hamiltonian of the harmonic oscillator is
 \begin{align*}
-  \hat{H} = \frac{-1}{2}\frac{\partial^2}{ \partial x^2} + \frac{1}{2} x^2.
+  \hat{H} = \frac{-1}{2}\frac{\partial^2}{ \partial x^2} + \frac{1}{2} x^2  \text{~.}
 \end{align*}
 Where we choose the trial wave function as
   \begin{align*}
-    \Psi_T = e^{-\alpha x^2}.
+    \Psi_T = e^{-\alpha x^2} \text{~.}
   \end{align*}
-From this we can derive tha local energy
+With this and eq.~\eqref{eq:local_energy}, we can calculate the local energy
   \begin{align*}
-    E_L = \alpha + x^2(\frac{1}{2} - 2\alpha^2).
+    E_L = \alpha + x^2(\frac{1}{2} - 2\alpha^2) \text{~.}
   \end{align*}
  	
-  Notice that based on the local energy we can already determine that $\alpha = \frac{1}{2}$ gives us the ground state ($E_L = E_0 = \frac{1}{2}$), because in that case the variance of the local energy is equal to zero. It is nonetheless a good test for our algorithm to see if we can find the expected value of $E_0 = \frac{1}{2}$ using Monte Carlo integration.  \\
+Notice that, based on the local energy we can already determine that $\alpha = \nicefrac{1}{2}$ gives us the ground state ($E_L = E_0 = \nicefrac{1}{2}$), because in that case the variance of the local energy is equal to zero. It is nonetheless a good test for our algorithm to see if we can find the expected value of $E_0 = \nicefrac{1}{2}$ using Monte Carlo integration.\\
   
-We apply the stratified adaptive integration scheme as defined in section 3 and use Newton's method on the derivative $\frac{dE}{d\alpha} = 2 (<E_L \frac{d \ln \Psi_T}{d \alpha}> - E<\frac{d \ln \Psi_T}{d \alpha}>)$. This method works because our the exact solution is within the family of trial functions, see [reference to book]. In 100 steps we reached an energy of $E_{MC} = 0.50000000163$ at $\alpha = 0.500001076455$.  See [awesome graph that Ren\'e will give us] where we show the value of the energy as a function of iteration number and as a function of $\alpha$. 
+We apply the stratified adaptive integration scheme as defined in section~\ref{ch:monte_app} and use Newton's method on the derivative $\frac{dE}{d\alpha} = 2 (\left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right>)$. This method works because our the exact solution is within the family of trial functions, see \cite{JosBook}. %TODO
+The new variational parameter can then be adapted as $\alpha_{\text{new}} = \alpha_{\text{old}} - \gamma \frac{dE}{d\alpha} $.
+In 50 steps we reached an energy of $E_{MC}-E_0 \simeq 1.63\cdot 10^{-9}$ at $\alpha - \alpha_i \simeq 7.6455\cdot 10^{-6}$, compare to figure~\ref{fig:Ho_it} and \ref{fig:Ho_rel}.
 
-[INSERT GRAPH HERE. CAPTION: Energy as a function of iteration number (left) and alpha (middle). Performed with 100 iterations, with a damping factor of $\gamma = 10^{-5}$, $\alpha_0 = 3$, $1000$ test points over $20$ boxes over a domain with length $4$.] 
+[INSERT GRAPHS HERE. CAPTION: Energy as a function of iteration number (left) and alpha (middle). Performed with 50 iterations, a damping factor of $\gamma = 10^{-5}$, $\alpha_0 = 3$, $1000$ test points over $20$ boxes over a domain with length $4$.] 
   
 
 \subsection{Hydrogen Atom}
