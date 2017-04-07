@@ -1,0 +1,62 @@
+\section{Three Quantum Problems}
+Here we specify the problems in quantum mechanich we attempt to solve,
+all of this problems have well known solutions a thus we can compare how accurate is our variational method.
+
+\subsection{Harmonic Oscillator}
+The Hamiltonian of the harmonic oscillator is
+\begin{align*}
+  \hat{H} = \frac{-1}{2}\frac{\partial^2}{ \partial x^2} + \frac{1}{2} x^2.
+\end{align*}
+Where we choose the trial wave function as
+  \begin{align*}
+    \Psi_T = e^{-\alpha x^2}.
+  \end{align*}
+From this we can derive the local energy
+  \begin{align*}
+    E_L = \alpha + x^2(\frac{1}{2} - 2\alpha^2).
+  \end{align*}
+
+Notice that based on the local energy we can already determine
+that $\alpha = \frac{1}{2}$ gives us the ground state ($E_L = E_0 = \frac{1}{2}$),
+because in that case the variance of the local energy is equal to zero.
+It is nonetheless a good test for our algorithm to see if we can find the expected
+value of $E_0 = \frac{1}{2}$.
+
+
+
+\subsection{Hydrogen Atom}
+We will now consider the Hydrogen atom, where the Hamiltonian is
+\begin{align*}
+  \hat{H} = \frac{-1}{2}\nabla^2 - \frac{1}{r}.
+\end{align*}
+The choosen trial wave function is,
+  \begin{align*}
+    \Psi_T = e^{-\alpha r}.
+  \end{align*}
+This leads the a local energy
+  \begin{align*}
+    E_L(r) = - \frac{1}{r} - \frac{1}{2}\alpha(\alpha - \frac{2}{r})
+  \end{align*}
+
+Here, too, we notice that from inspection it is clear that $\alpha = 1$ yields the ground state energy
+ of $E_L = E_0 = -\frac{1}{2}$, because there $Var(E_L) = 0$.
+
+
+
+\subsection{Helium Atom}
+Finally we consider the Hamiltonian for the helium atom,
+\begin{align*}
+  \hat{H} = -\frac{1}{2}(\nabla_{r_1}^2 + \nabla_{r_3}^2 + 2\nabla_{r_1}\cdot \nabla_{r_2}) - \frac{1}{r}.
+\end{align*}
+With the trial function
+  \begin{align*}
+    \Psi_T (\textbf{r}_1,\textbf{r}_2) = e^{2r_1}e^{2r_2}e^{\frac{r_{12}}{2(1+\alpha r_{12}}}.
+  \end{align*}
+where $r_{12} = |\textbf{r}_1 - \textbf{r}_2 |$.
+This gives the equation for the local energy:
+  \begin{align*}
+    E_L(\textbf{r}_1,\textbf{r}_2) = -4  +
+     \frac{(\hat{\textbf{r}}_1 - \hat{\textbf{r}}_2) \cdot (\textbf{r}_1 - \textbf{r}_2)}{r_{12}(1+\alpha r_{12})^2} \\
+     -   \frac{1}{r_{12}(1+\alpha r_{12})^3} \\
+     - \frac{1}{r_{12}(4(1+\alpha r_{12}))^4} + \frac{1}{r_{1,2}}
+  \end{align*}
