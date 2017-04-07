@@ -11,7 +11,7 @@ of problems. One of these is the Variational Mont\'e Carlo method, which combine
 quantum mechanics.
 
 
-\subsection{Mont\'e Carlo Integration: Random Sampling}
+\subsection{Mont\'e Carlo Integration}
 \label{ch:monte}
 While essentially done through means of computers, there is an 18\textsuperscript{th} century precursor to
 his which nicely illustrates the idea of Mont\'e Carlo simulation. In 1733, Georges-Louis Leclerc
@@ -71,8 +71,12 @@ the described Mont\'e Carlo method.
 %$Var(E_L) = \sqrt{<E_L^2> - <E_L>^2} = \sqrt{ \int \textbf{r}^2 E_L(\textit{r},\alpha) d\textbf{r} - (\int \textbf{r} E_L(\textit{r},\alpha)d\textbf{r})^2 } $, %TODO!!!
 %which can either be solves analytically or numerically, depending on the form of the local energy.
 
-The goal is, to find the minimum value of the energy with respect to $\alpha$. The direct derivative $\frac{dE}{d\alpha}$ can unfortunately be misleading, since fluctuations in the energy values due to integration errors can be larger than the actual gradient. Thus Newton's method on the derivative is utilized to write
-$$\frac{dE}{d\alpha} = 2 \left( \left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right> \right) \text{~,}$$
+The goal is, to find the minimum value of the energy with respect to $\alpha$. The direct derivative $\frac{dE}{d\alpha}$ can unfortunately be misleading, since fluctuations in the energy values due to integration errors can be larger than the actual gradient. Thus using the local energy
+we can find
+\begin{align}
+\label{eq:dE}
+\frac{dE}{d\alpha} = 2 \left( \left< E_L \frac{d \ln(\Psi_T)}{d \alpha} \right> - E\left<\frac{d \ln(\Psi_T)}{d \alpha}\right> \right) \text{~,}
+\end{align}
 compare to \cite{JosBook}.
 %This method works because our the exact solution is within the family of trial functions, see . %TODO
 The new variational parameter can then recursively be adapted with
@@ -81,6 +85,20 @@ The new variational parameter can then recursively be adapted with
 	\alpha_{\text{new}} = \alpha_{\text{old}} - \gamma \frac{dE}{d\alpha} \text{~}
 \end{align}
 to find the minimum of the energy with respect to alpha.
+
+
+\subsection{Solving a variational problem}
+Now having exposed everything that is needed we
+can now summarize the algorithm to follow in order to solve a system with Hamiltonian $\hat{H}$
+using the variational Mont\'e Carlo method.
+\begin{enumerate}
+  \item Choose a trial function $\Psi_T$ and compute $E_L$.
+  \item Select parameters $\alpha_i, \gamma$.
+  \item Compute the integrals in order to find the energy \ref{eq:groundstate2}.
+  \item Readjust $\alpha$ by means of eqs. \ref{eq:dE} and \ref{eq:minimizer}.
+  \item Repeat until convergence.
+\end{enumerate}
+
 
 
 
