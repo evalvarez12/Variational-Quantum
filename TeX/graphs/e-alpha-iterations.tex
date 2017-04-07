@@ -3,10 +3,7 @@
     \usepackage{pgfplots}
     \usepackage{siunitx}
     
-    \sisetup{per-mode=symbol}
     
-    \DeclareSIUnit{\fahrenheit}{\degree F}
-    \DeclareSIUnit{\pound}{lbm}
     
     \begin{document}
     	\begin{tikzpicture}
@@ -25,7 +22,10 @@
 		    	col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}}
 		    ] {/media/Data/Uni-Owncloud/Uni-Public-Normal-Stuff/Sonstiges/Computational Physics/Projects/Project2/Variational/TeX/graphs/data/helium-log_it-50_damp-3e-05_nTP-1000000_-sA0.5.csv};
 	    	\addlegendentry{Energy}
-	    	\addplot[red, domain=-1:0] {-2.7};
+	    	\addplot[
+		    	red, domain=-1:0, 
+		    	mark=+, mark size=1.7,
+	    	] {-2.7};
 	    	\addlegendentry{Alpha}
 	    	
     	\end{axis}
