@@ -17,7 +17,7 @@ Where we choose the trial wave function as
   \end{align*}
 With this and eq.~\eqref{eq:local_energy}, we can calculate the local energy
   \begin{align*}
-    E_L = \alpha + x^2(\frac{1}{2} - 2\alpha^2) \text{~.}
+    E_L = \alpha + x^2 \left(\frac{1}{2} - 2\alpha^2\right) \text{~.}
   \end{align*}
  	
 Notice that, based on the local energy we can already determine that $\alpha = \nicefrac{1}{2}$ gives us the ground state ($E_L = E_0 = \nicefrac{1}{2}$), because in that case the variance of the local energy is equal to zero. It is nonetheless a good test for our algorithm to see if we can find the expected value of $E_0 = \nicefrac{1}{2}$ using Monte Carlo integration.\\
@@ -41,7 +41,7 @@ We choose the trial wave function as
   \end{align}
 This leads the a local energy
   \begin{align}
-    E_L(r) = - \frac{1}{r} - \frac{1}{2}\alpha(\alpha - \frac{2}{r})
+    E_L(r) = - \frac{1}{r} - \frac{1}{2}\alpha \left(\alpha - \frac{2}{r}\right)
   \end{align}
 
 Here, too, we notice that from inspection it is clear that $\alpha = 1$ yields the ground state energy of $E_L = E_0 = -\frac{1}{2}$, because there $Var(E_L) = 0$. The convergence on this seems to be quite fast. Using the parameters $\gamma = 0.0005$, $\alpha_0 = 3$ with number of test point $N = 5000$ over $7$ boxes, we need about 160 iterations to reach $\alpha = 1.0000000005 \pm 5 \cdot 10^{-10}$. That is, within 160 iterations we can estimate $\alpha$ up to ten digits and find the appropriate energy for it. 
