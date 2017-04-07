@@ -39,16 +39,18 @@ def ringStep(pos):
 
 
 #Simulation parameters
-steps = 30
+steps = 250
 iterations = 1000
 numberOfBoxes = 5
-maxNumPoints = 2000
+maxNumPoints = 3000
+minNumPoints = 100
 
 #ringStep
 intFunc = ringStep
 analyticalAnswer = 2*np.pi*(3**2-2**2)
 domainSize = 10
 dim = 2
+addRandom=True
 
 #hyperbel
 #intFunc = hyperbel
@@ -64,13 +66,14 @@ IMAGE_PATH = RESULT_PATH+"/images"
 #Local iteration storage
 values = np.zeros([4,steps])
 errors = np.zeros([4,steps])
-x=(np.array(range(steps))+1)*int(maxNumPoints/steps)
+rx = np.zeros([4,steps])
+x=(np.array(range(steps)))*int(((maxNumPoints-minNumPoints)/steps)+minNumPoints)
 
 
 #For each of the four integration methods
 for i in range(4):
     #Create a CSV-Logger for the results
-    CSV_FILE = open(RESULT_PATH+"/ringStep_it-"+str(iterations)+"_step-"+str(steps)+"_maxN-"+str(maxNumPoints)+"_met-"+str(i)+".csv", 'w', newline='')  
+    CSV_FILE = open(RESULT_PATH+"/ringStep"+"_r-"+str(addRandom)+"_it-"+str(iterations)+"_step-"+str(steps)+"_maxN-"+str(maxNumPoints)+"_met-"+str(i)+".csv", 'w', newline='')  
     CSV_FILE_WRITER = csv.writer(CSV_FILE)
     
     #Run for different number of points
@@ -96,13 +99,13 @@ for i in range(4):
         #Run the number of iterations specified
         for itera in range(iterations):
             if i == 0:
-                mcer.generateUniformGrid()
+                mcer.generateUniformGrid(addRandom=addRandom)
             elif i == 1:
-                mcer.generateAdaptiveUniformGrid(density=density)
+                mcer.generateAdaptiveUniformGrid(density=density, addRandom=addRandom)
             elif i == 2:
-                mcer.generateStratifiedGrid()
+                mcer.generateStratifiedGrid(addRandom=addRandom)
             elif i == 3:
-                mcer.generateAdaptiveStratifiedGrid(density=density)
+                mcer.generateAdaptiveStratifiedGrid(density=density, addRandom=addRandom)
     
             realTP += [mcer.actNumberOfTestPoints]
             totalIntegral, _, newDensity = mcer.integrate(function=intFunc)
@@ -116,17 +119,20 @@ for i in range(4):
         values[i, run] = (np.average(error))
         errors[i, run] = (np.std(error))
         realTestPoints = np.average(realTP)
+        rx[i, run] =  realTestPoints
+        realTestPointsErr = np.std(realTP)
         t = time.time() - startTime
         
         #Write the changes to the CSV and console
-        CSV_FILE_WRITER.writerow([realTestPoints, values[i, run], errors[i, run], t, numTestPoints])
+        CSV_FILE_WRITER.writerow([realTestPoints, values[i, run], errors[i, run], realTestPointsErr, t, numTestPoints])
+        CSV_FILE.flush()
+        
+        print(" > Actual number of points was "+str(realTestPoints))
         print(" > The error was on avarage "+str(np.average(error)) +"±"+ str(np.std(error)))
         print(" > It took "+str(t)+"s")
-        
-        CSV_FILE.flush()
     CSV_FILE.close()
 
-plt.plot(x, np.absolute(values[0]), '-o')
-plt.plot(x, np.absolute(values[1]), '-o')
-plt.plot(x, np.absolute(values[2]), '-o')
-plt.plot(x, np.absolute(values[3]), '-o')
+plt.plot(rx[0], np.absolute(values[0]), '-o')
+plt.plot(rx[1], np.absolute(values[1]), '-o')
+plt.plot(rx[2], np.absolute(values[2]), '-o')
+plt.plot(rx[3], np.absolute(values[3]), '-o')

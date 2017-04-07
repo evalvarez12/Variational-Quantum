@@ -11,10 +11,10 @@
 \begin{document}
 	\begin{tikzpicture}
 		\begin{axis}[
-			xmin=0, xmax=2000,
-			ymin=-0.01, ymax=0.36,
+			xmin=100, xmax=2700,
+			ymin=-0.01, ymax=0.21,
 			xlabel={Number of integration points}, 
-			ytick={0, 0.05, ..., 0.4}, yticklabels={0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4}, ylabel={Relative error}, %legend pos=outer north east
+			ytick={0, 0.05, ..., 0.6}, yticklabels={0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55}, ylabel={Relative error}, %legend pos=outer north east
 			%unit vector ratio=1 1,
 			width=16cm, height=7cm,
 			%cycle list name={moreland},
@@ -23,21 +23,21 @@
 		]
 		
 			
-			\foreach \met in {0,1,2,3}{
+			\foreach \met in {0, 1, 2, 3}{
 			
 				\addplot+[%scatter, only marks, mark=*, mark size=0.15,
-					scatter, only marks, each nth point=3, forget plot,
+					scatter, only marks, each nth point=5, forget plot,
 					mark=none,
 					error bars/.cd,
 						y dir=both, y explicit, 
 				] table[
 					col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}},  y error index=2
-				] {data/ringStep_it-500_step-100_met-\met.csv};
+				] {data/ringStep_r-False_it-1000_step-250_maxN-3000_met-\met.csv};
 				
 				
 				\addplot+[
 					mark=none,
-				] table[col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}}] {data/ringStep_it-500_step-100_met-\met.csv};
+				] table[col sep=comma, x expr={\thisrowno{0}}, y expr={\thisrowno{1}}] {data/ringStep_r-False_it-1000_step-250_maxN-3000_met-\met.csv};
 			}
 			
 			\addlegendentry{Uniform Static}
