@@ -51,31 +51,31 @@ Two simulations for the one-dimensional harmonic oscillator were performed with 
 
 \subsection{Hydrogen Atom}
 We will now consider the Hydrogen atom, where the Hamiltonian is
-\begin{align}
+\begin{align*}
   \hat{H} = -\frac{1}{2}\nabla^2 - \frac{1}{r} \text{~.}
-\end{align}
+\end{align*}
 
 We choose the trial wave function as
-  \begin{align}
+  \begin{align*}
     \Psi_T = e^{-\alpha r} \text{~,}
-  \end{align}
+  \end{align*}
 which leads to the local energy
-  \begin{align}
+  \begin{align*}
     E_L(r) = - \frac{1}{r} - \frac{1}{2}\alpha \left(\alpha - \frac{2}{r}\right) \text{~.}
-  \end{align}
+  \end{align*}
 
 Here, too, we notice that from inspection it is clear that $\alpha = 1$ yields the ground state energy of $E_L = E_0 = -\nicefrac{1}{2}$, because there $\text{Var}(E_L) = 0$. The convergence on this seems to be quite fast. Using the parameters $\gamma = 5\cdot 10^{-4}$, $\alpha_i = 3 \text{~/~}0.01$ with 5,000 test points over $7$ boxes, we need about 160 iterations to reach $\alpha-\alpha_0 \simeq 5 \cdot 10^{-10}$. That is, within 160 iterations we can estimate $\alpha$ up to ten digits and find the appropriate energy for it. 
 
 
 \subsection{Helium Atom}
 Finally we consider the Hamiltonian for the Helium atom,
-\begin{align}
+\begin{align*}
   \hat{H} = -\frac{1}{2} \left(\nabla_{r_1}^2 + \nabla_{r_3}^2 + 2\nabla_{r_1}\cdot \nabla_{r_2}\right)  - \frac{1}{r} \text{~.}
-\end{align}
+\end{align*}
 Where will we use the trial function
-  \begin{align}
+  \begin{align*}
     \Psi_T (\textbf{r}_1,\textbf{r}_2) = e^{2r_1}e^{2r_2}e^{\frac{r_{12}}{2(1+\alpha r_{12}}}
-  \end{align}
+  \end{align*}
 
 where $r_{12} =  \left|\textbf{r}_1 - \textbf{r}_2 \right| $. This leads a rather simple equation for the local energy:
 \begin{align*}
