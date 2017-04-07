@@ -74,13 +74,4 @@ for i in range(iterations):
 CSV_FILE.flush()
 CSV_FILE.close()
 
-CSV_FILE = open(RESULT_PATH+"/hydrogen-wf_it-"+str(iterations)+"_damp-"+str(damping)+"_nTP-"+str(numTestPoints)+"_-sA"+str(startAlpha)+".csv", 'w', newline='')
-CSV_FILE_WRITER = csv.writer(CSV_FILE)
-
-wfden, pos = sim.getWFDensity()
-
-for i in range(len(pos)):
-    CSV_FILE_WRITER.writerow([*tuple(pos[i]), wfden[i]])
-
-
 plt.plot(np.absolute(alphas))
