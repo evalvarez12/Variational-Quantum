@@ -7,14 +7,14 @@
 One of the greater problems when dealing with Quantum Mechanics is the lack of analytical solutions for wave-functions
 in almost all cases, where the harmonic oscillator and Hydrogen atom are the most notable exceptions.
 Thus a number of different numerical methods have been established in order to solve these types
-of problems. One of these is the Variational Mont\'e Carlo method, which combines Mont\'e Carlo integration and variational
+of problems. One of these is the Variational Monte Carlo method, which combines Monte Carlo integration and variational
 quantum mechanics.
 
 
-\subsection{Mont\'e Carlo Integration}
+\subsection{Monte Carlo Integration: Random Sampling}
 \label{ch:monte}
 While essentially done through means of computers, there is an 18\textsuperscript{th} century precursor to
-his which nicely illustrates the idea of Mont\'e Carlo simulation. In 1733, Georges-Louis Leclerc
+his which nicely illustrates the idea of Monte Carlo simulation. In 1733, Georges-Louis Leclerc
 de Buffon had a wooden floor made up parallel beams; thus creating a plane with parallel lines.
 If we were to drop down needles on the floor, he wondered what the probability would be of
 any needle crossing one of the parallel lines \cite{Buffon}. Since this is dependent on the
@@ -63,7 +63,7 @@ We can make use this local energy, by simplifying equation \ref{eq:groundstate} 
 	E(\alpha) = \frac{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)E_L(\textbf{r},\alpha)}{\int d\textbf{r} \psi_T^*(\textbf{r},\alpha)\psi_T(\textbf{r},\alpha)}
 \end{equation}
 which is easier to work with due to the lack of a Hamiltonian \cite{JosBook}. These integrals can then be numerically evaluated using
-the described Mont\'e Carlo method.
+the described Monte Carlo method.
 
 
 %In order to make the best use of finite integration steps, we will sample not \textit{entirely} at random, but rather by iteratively in such a way that we place our finite sample points there where the wave function is non-zero. This is called an adaptive method, and we will show that this yields better results quicker than using an entirely random sample, as seen in the next chapter.
